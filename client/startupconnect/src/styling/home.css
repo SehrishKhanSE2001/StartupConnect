@@ -1,0 +1,551 @@
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.home_container {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top:-30px;
+}
+
+/* .search-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px;
+    width: 96%;
+}
+.search-bar-input{
+  background-color: white;
+}
+
+.search-icon {
+  width: 24px; 
+  height: 24px; 
+  cursor: pointer; 
+  margin-right:900px;
+}
+
+.search-bar input {
+    width: 400px;
+    padding: 10px 10px 10px 40px;
+    border: 1px solid #E0E0E0;
+    border-radius: 5px;
+    background-size: 20px 20px;
+    background-color: white;
+   
+} */
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 20px;
+  border-radius: 5px;
+  width: 96%;
+}
+
+.search-bar-input {
+  position: relative; /* Set position relative to position the icon */
+  width: 30%;
+}
+
+
+
+.search-bar-input input {
+  width: 90%; /* Adjust width as needed */
+  padding: 10px 40px 10px 10px; /* Padding for icon */
+  border: 1px solid white; /* Border color */
+  border-radius: 5px;
+  background-color: white; /* Input background color */
+  color: black; /* Input text color */
+  /* Remove default icon using: */
+  background: none;
+  box-shadow: none; /* Remove any default shadow */
+}
+.search-bar-input input::placeholder {
+  color: white; /* Change this to your desired color */
+  opacity: 1;   /* Ensures the placeholder is fully opaque */
+}
+
+
+.search-bar-input .search-icon {
+  position: absolute;
+  right: 10px; /* Position the icon on the right inside the input */
+  top: 50%;
+  transform: translateY(-50%); /* Center the icon vertically */
+  width: 20px; /* Adjust size as needed */
+  height: 20px; /* Adjust size as needed */
+  cursor: pointer;
+}
+
+.search-bar .icons {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+
+.search-bar .icons img {
+    width: 30px;
+    height: 30px;
+}
+
+.description {
+    display: flex;
+    flex-direction: column; /* Default to column layout */
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+.briefIntro {
+    max-width: 40%;
+    text-align: left;
+    z-index: 1;
+    margin-left: -200px;
+}
+
+.briefIntroRocket {
+    max-width: 40%;
+    text-align: right;
+    z-index: 1;
+    margin-top:-360px;
+    margin-left:700px;
+}
+
+.title1 {
+    height: auto;
+    font-family: "Poiret One", sans-serif;
+    font-size: 4.0em;
+   margin-left:-200px;
+}
+
+.bulb {
+    height: auto;
+    max-width: 250px;
+    margin-left:-300px;
+    margin-top:-200px;
+}
+
+.miniDescription1 {
+    height: auto;
+    font-family: "Poiret One", sans-serif;
+    max-width: 500px;
+    font-size: 1.0em;
+    margin-top:-100px;
+    margin-left:-100px;
+}
+
+@media (max-width: 768px) {
+    .description {
+        flex-direction: column;
+        align-items: center;
+    }
+  
+    .briefIntro,
+    .briefIntroRocket {
+        max-width: 90%;
+        margin: 10px 0;
+       
+    }
+}
+  
+@media (min-width: 769px) and (max-width: 1024px) {
+    .briefIntro {
+        max-width: 45%;
+    }
+  
+    .briefIntroRocket {
+        max-width: 45%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .description {
+        padding: 10px;
+    }
+
+    .briefIntro, .briefIntroRocket {
+        max-width: 45%;
+        margin: 2.5%;
+        
+    }
+} 
+
+
+
+    .gridExample {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px; /* Space between rows of images */
+        height: 410px;
+        margin-top: 100px;
+    }
+    
+    .gridRow {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center images horizontally */
+        width: 80%; 
+        margin-top: 4px;
+        gap: 3vw; /* Responsive spacing between images */
+    }
+    
+    .image-container {
+        position: relative;
+        width: 35%; /* Adjusted width for images */
+        height: 290px;
+        overflow: visible; /* Allow images to pop up outside the container */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    }
+    
+    .image-container img {
+        width: 100%; /* Full width of the container */
+        height: 100%; /* Full height of the container */
+        border-radius: 20px;
+        object-fit: cover; /* Ensure images cover the container */
+        transition: transform 0.3s ease; /* Smooth transition */
+    }
+    
+    /* Hover effect for pop-up */
+    .image-container:hover img {
+        transform: scale(1.1); /* Slightly larger on hover */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+    }
+    
+    /* Style for the link overlay */
+    .image-link {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        z-index: 1; /* Ensure link is above image */
+        pointer-events: none; /* Optional: Makes sure link does not capture mouse events */
+    }
+    
+    .image-container:hover .image-link {
+        pointer-events: auto; /* Enable link click on hover */
+    }
+
+    
+    /* Keyframes for circular movement */
+@keyframes circularMovement {
+    0% {
+        transform: rotate(0deg) translateX(0) rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg) translateX(100px) rotate(-360deg);
+    }
+}
+
+.rocket {
+    transition: transform 0.5s ease; /* Smooth transition */
+}
+
+.rocket:hover {
+    animation: circularMovement 2s linear infinite; /* Apply animation on hover */
+}
+
+.bulb {
+    transition: transform 0.3s ease; /* Smooth transition for scaling */
+  }
+  
+  .bulb:hover {
+    transform: scale(1.2); /* Scale up the image on hover */
+  }
+
+ 
+   .flexContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns in each row */
+    gap: 10px; /* Adjust the space between grid items */
+    padding: 40px;
+    margin-left: 50px; /* Keep the current left margin */
+    padding-top: 60px;
+    transform: translateX(-40px); /* Shift the container 20px to the left */
+  }
+  
+  /* .flexBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    border: 1px solid #d5dfe8;
+    background-color:#f5f4f1;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    text-align: center;
+    height: 300px; 
+    justify-content: space-between; 
+    
+  } */
+  .flexBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    border: 1px solid #d5dfe8;
+    /* background-color: #f5f4f1; */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    text-align: center;
+    height: 300px; /* Adjust the height as needed */
+    justify-content: space-between; /* Space between items */
+    position: relative; /* Ensure child elements can be positioned absolutely */
+    overflow: hidden; /* Hide any overflowed content */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.flexBox:hover {
+  transform: scale(1.05); /* Slightly zoom in on hover */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5); /* More prominent shadow on hover */
+}
+  button {
+    background-color: #f9d03c; /* Blue background color */
+    color: white; /* White text color */
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    padding: 8px 16px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+  
+  button:hover {
+    background-color: #f4e77a; /* Darker blue when hovering */
+  }
+  
+  button:focus {
+    outline: none; /* Remove default focus outline */
+  }
+
+  .flexBox h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color:black;
+    margin-top:233px;
+    font-family: "Poiret One", sans-serif;
+    
+  }
+
+ @keyframes slideInFromTop {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .startupLine p {
+    opacity: 0; /* Hide initially */
+
+  }
+  
+  .startupLine.animate p {
+    animation: slideInFromTop 1s ease-out;
+    opacity: 1; /* Ensure it becomes visible */
+  }
+  .startupLine{
+    color:black;
+    visibility:visible;
+    opacity:1;
+    margin-left:530px;
+    margin-top:80px;
+    font-family: "Poiret One", sans-serif;
+    font-size: 3.9em;
+ }
+  .Title{
+    color:black;
+    visibility:visible;
+    opacity:1;
+    margin-left:2px;
+    margin-top:80px;
+    font-family: "Poiret One", sans-serif;
+    font-size: 1.0em;
+  }
+  
+  /* .logo-image{
+  width: 80%;
+  height: auto;
+  display: block;
+  border-radius: 2%;
+  margin:0;
+} */
+.flexBox img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto; /* Adjust if needed to ensure it covers the desired area */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    border-radius: 8px 8px 0 0; /* Rounded corners on top only, if desired */
+}
+
+/* Ensure the button and text are placed on top of the image */
+.flexBox > *:not(img) {
+    position: relative; /* Place other content above the image */
+    z-index: 1; /* Ensure other content is above the image */
+}
+
+/*222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222*/
+
+/* Container for other elements (if necessary) */
+.image1Container {
+    position: relative; /* Ensure it is positioned relative to .icons */
+}
+
+/* Ensure icons div is positioned above everything */
+.icons {
+     /* Fixed position for staying in the same place when scrolling */
+    top: 10px; /* Adjust the distance from the top */
+    right: 10px; /* Adjust the distance from the right */
+    z-index: 1000; /* High z-index to ensure it’s above other elements */
+    display: flex;
+    gap: 10px; /* Space between icons */
+    padding: 10px; /* Optional: Add padding if needed */
+    border-radius: 5px; /* Optional: Rounded corners */
+}
+
+/* Icons styling */
+.icons img {
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+    cursor: pointer; /* Pointer cursor on hover */
+   
+
+  
+  transition:transform 0.3s ease , box-shadow 0.3s ease;
+}
+.icons img:hover {
+    transform: scale(1.2); /* Enlarge icon */
+    
+  }
+
+  /* .moreBar {
+    position: absolute;
+    top: 80px; 
+    right: 20px; 
+    width:100px;
+    height:100px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+  }
+  
+  .moreBar img {
+    width: 20px; 
+    height: 20px; 
+    border-radius: 50%; 
+    margin-bottom:70px;
+  }
+  
+  .moreBar button {
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom:70px;
+    margin-left:-9px;
+    width:100px;
+  }
+  
+  .moreBar button:hover {
+    background-color: #f2e967;
+  } */
+
+  .moreBar {
+    position: absolute; /* Or 'fixed' if you want it to stay in the same place on scroll */
+    top: 80px; /* Adjust to your needs */
+    right: 5px; /* Adjust to your needs */
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    z-index: 1000; /* Ensure it appears above other content */
+  }
+  
+  /* Arrow pointing upwards */
+  .moreBar::before {
+    content: '';
+    position: absolute;
+    bottom: 100%; /* Position the arrow above the moreBar */
+    left: 50%; /* Center the arrow horizontally relative to the moreBar */
+    transform: translateX(-50%); /* Center the arrow */
+    width: 0;
+    height: 0;
+    border-width: 0 10px 10px 10px; /* Size of the arrow */
+    border-style: solid;
+    border-color: transparent transparent #fff transparent; /* Arrow color and direction */
+  }
+  
+  /* Container for image and button */
+  .moreBarContent {
+    display: flex; /* Align items in a row */
+    align-items: center; /* Center items vertically */
+    gap: 10px; /* Space between the image and the button */
+    margin-top: -60px;
+  }
+  
+  /* Styling for image */
+  .moreBar img {
+    width: 20px; /* Adjust size as needed */
+    height: 20px; /* Adjust size as needed */
+    border-radius: 50%; /* Make the image round */
+  }
+  
+  /* Styling for button */
+  .moreBar button {
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .moreBar button:hover {
+    background-color: #f1e165; /* Adjust hover color */
+  }
+  

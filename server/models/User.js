@@ -12,7 +12,22 @@ const UserSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    role: { type: String, enum: ['admin', 'investor', 'startup', 'general','incubator'], default: 'general' },
+    location:{
+        type:String,
+        required:true
+    },
+    Date:{
+        type:Date,
+        default:Date.now
+    },
+    Description:{
+       type:String,
+
+    },
+    phonenumber:{
+        type:Number,
+        required:true
+    },
 })
 const UserModel = mongoose.model("users" , UserSchema)
 module.exports=UserModel

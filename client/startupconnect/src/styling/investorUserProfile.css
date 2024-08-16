@@ -1,0 +1,377 @@
+/* Base styles for all screen sizes */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.investorUserProfile-container {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #f9d03c 0%, #ffffff 100%);
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+}
+
+.Investor-profile {
+    padding: 20px;
+}
+
+.Investor-logo-Display img {
+    max-width: 100px;
+    height: auto;
+}
+
+
+
+
+.Investor-buttons {
+    margin-bottom: 20px;
+}
+
+.AddUpdateButton, .ViewInvestmentDetailsButton {
+    margin-right: 10px;
+}
+
+.Investor-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.investor-form {
+    position:relative;
+    z-index:1000;
+    margin: -700px auto; /* Adjust top and bottom margins */
+    width: 100%; /* Set width to 100% for responsiveness */
+    max-width: 1000px; /* Limit max width */
+    background: #ffffff;
+    padding: 10px; /* Reduced padding to make the form shorter */
+    border-radius: 8px;
+    max-height: 80vh; /* Limit height to a percentage of the viewport height */
+    overflow-y: auto; /* Enable scrolling if content exceeds max-height */
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
+    border: 10px solid #dbb713; /* Black outline */
+    
+}
+
+.investor-form h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: #333;
+    text-align: center;
+}
+
+.investor-form input {
+    width: calc(100% - 22px); /* Adjust width to account for padding and border */
+    padding: 8px; /* Reduced padding */
+    margin-bottom: 8px; /* Reduced margin */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9em; /* Slightly smaller font size */
+}
+
+.investor-form button {
+    width: 100%;
+    padding: 8px; /* Reduced padding */
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9em; /* Slightly smaller font size */
+    color: #fff;
+    background-color: #ffcc00;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.investor-form button:hover {
+    background-color: #ffcc00;
+    transform: scale(1.01);
+}
+
+.Startups-selection {
+    margin-top: 20px;
+}
+
+.Startups-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.Startup-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.Startup-item input[type='checkbox'] {
+    margin-right: 10px;
+}
+
+.Startup-item span {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.Startup-item span:hover {
+    color: darkblue;
+}
+
+.Selected-startup-profile {
+    margin-top: 20px;
+}
+
+.Selected-startup-profile img {
+    max-width: 200px;
+    height: auto;
+}
+
+.select-button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.select-button-container select,
+.select-button-container button {
+    width: 100%; /* Make each item full width of the container */
+}
+
+.investorLogo-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Adjust margin as needed */
+    
+}
+
+.investorLogo {
+    width: 100%;
+    max-width: 400px; /* Limit the max width */
+    height: 400px;
+    margin-top: -30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-left:100px;
+    border: 3px solid #dbb713; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1%; 
+}
+
+.investorLogo img {
+    width: 300px; 
+    height: 400px;
+
+}
+
+.investorButtons-row {
+    display: flex;
+    justify-content: flex-start; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -100px;
+} 
+
+.actions {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+}
+
+.actions-investorButtons {
+    position: relative;
+    margin-top: -300px;
+    margin-left:-100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.investorButton {
+    width: 1000%;
+    max-width: 400px; /* Reduce the width of the buttons */
+    padding: 10px;
+    background-color: #ffcc00; /* Button background color */
+    color: white; /* Button text color */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    text-align: left; /* Align text to the left */
+    display: flex;
+    align-items: center;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.investorButton .image {
+    margin-right: 10px; /* Space between image and text */
+}
+
+.investorButton:hover {
+    background-color: #ffcc00; /* Darken button color on hover */
+    transform: scale(1.05);
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    .investor-form {
+        margin: -600px auto; /* Adjust margin for tablets */
+        width: 90%; /* Adjust width for tablets */
+    }
+
+    .investorButtons-row {
+        margin-top: -50px;
+        margin-left: 0; /* Adjust for smaller screens */
+    }
+
+    .actions-investorButtons {
+        margin-top: -200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .investor-form {
+        margin: -400px auto; /* Adjust margin for small tablets and large phones */
+        width: 90%; /* Adjust width for smaller screens */
+    }
+
+    .investorButtons-row {
+        flex-direction: column;
+        align-items: center;
+        margin-top: -30px;
+    }
+
+    .investorLogo {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .actions-investorButtons {
+        margin-top: -150px;
+    }
+
+    .investorButton {
+        max-width: 100%; /* Make buttons full width on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .investor-form {
+        margin: -200px auto; /* Adjust margin for mobile phones */
+        width: 95%; /* Adjust width for mobile phones */
+    }
+
+    .investorButtons-row {
+        flex-direction: column;
+        align-items: center;
+        margin-top: -20px;
+    }
+
+    .investorLogo {
+        width: 90%; /* Adjust logo width on mobile */
+    }
+
+    .actions-investorButtons {
+        margin-top: -100px;
+    }
+
+    .investorButton {
+        max-width: 100%; /* Full width on mobile */
+        font-size: 0.9em; /* Adjust font size for mobile */
+        padding: 8px; /* Adjust padding for mobile */
+    }
+}
+/*|||||||||||||||||||||||||||||||||||||*/
+.investor-details {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 600px;
+    max-height: 90vh; /* Reduce the height */
+    overflow-y: auto; /* Add a scroll bar if content overflows */
+    margin-left: auto;
+    margin-right: auto;
+  
+    /* Centering the form */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Ensures it's above other content */
+  }
+  
+  .investorDetailsImage {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .investorDetailsImage img {
+    border-radius: 50%;
+    border: 2px solid #ddd;
+  }
+  
+  h2 {
+    text-align: center;
+    color: white;
+  }
+  
+  p {
+    color: white;
+    line-height: 1.6;
+  }
+  
+  p strong {
+    color: #000;
+  }
+  
+  .investedStartupt123 {
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+    margin-top: 15px;
+  }
+  
+  .investedStartup {
+    color: #ffcc00;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .Startups\ Approached\ yet {
+    color: #555;
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  
+  .startupsApproached p {
+    color: #666;
+    margin-bottom: 5px;
+  }
+  
+  .startupsApproached p strong {
+    color: #333;
+  }
+  
+  .close-details {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .close-details:hover {
+    background-color: #0056b3;
+  }
+  

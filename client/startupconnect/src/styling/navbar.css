@@ -1,0 +1,26 @@
+/* navbar.css */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align items to the end (right) */
+    background-color: #f9d03c;
+    padding: 10px 20px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Keeps the navbar fixed at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Keeps the navbar above other elements */
+  }
+  
+  .backimage{
+    width: 24px; /* Adjust the size of the icon */
+    height: 24px;
+    cursor: pointer; /* Change cursor to pointer for better UX */
+    margin-right:30px;
+    transition: transform 0.3s ease
+  }
+  
+  .backimage:hover{
+    transform:scale(1.09)
+  }

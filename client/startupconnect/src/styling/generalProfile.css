@@ -1,0 +1,134 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.generalProfile_container {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #f9d03c 0%, #ffffff 100%);
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Responsive spacing */
+    padding: 20px;
+    flex: 1; /* Allow container to take up remaining space */
+}
+
+@media (min-width: 600px) {
+    .container {
+        flex-direction: row;
+    }
+}
+
+.actions {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color:transparent;
+    padding: 10px;
+    height: 400px;
+    width: 100%; /* Set width to 100% to make it responsive */
+    flex: 1;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 0;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box; 
+}
+
+.search-bar input {
+    width: 400px;
+    padding: 10px 10px 10px 40px;
+    border: 1px solid #E0E0E0;
+    border-radius: 5px;
+    background: url('../images/search.png') no-repeat right 10px center;
+    background-size: 20px 20px;
+    background-color: white;
+}
+
+.search-bar .icons {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.search-bar .icons img {
+    width: 30px;
+    height: 30px;
+}
+
+.linkDescription-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px; /* Ensure there is space between rows */
+    background-color: #f9d03c;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Added transform for ease-in-out effect */
+    border-color:transparent;
+    max-width:500px;
+}
+
+.linkDescription-item:hover {
+    background-color: #f5c623; /* Change background color on hover */
+    transform: scale(1.01); /* Slightly scale the button on hover */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+.linkDescription-item span {
+    color: initial; /* Default color */
+}
+
+.linkDescription-item:hover span {
+    color: rgb(65, 38, 242); /* Change text color to blue on hover */
+}
+
+.linkDescription-item .image {
+    background-color: white;
+    margin-right: 10px; /* Space between image and text */
+}
+
+.illustration {
+    position: relative;
+    width: 100%; /* Make width responsive */
+    max-width: 900px; /* Set a max width */
+    height: 420px; /* Make height auto to maintain aspect ratio */
+    margin: 0 auto; /* Center the illustration */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gif {
+    border-radius: 20px;
+    width: 100%; /* Make width 100% to be responsive */
+    max-width: 700px; /* Increase max-width for horizontal length 700px*/
+    height: 500px; /* Maintain aspect ratio auto*/
+    margin: 0 auto; /* Center the GIF */
+}
+
+@media (max-width: 600px) {
+    .search-bar input {
+        width: 100%; /* Make search bar input responsive */
+    }
+    
+    .gif {
+        max-width: 100%; /* Make sure the GIF doesn't exceed the container width */
+    }
+}
