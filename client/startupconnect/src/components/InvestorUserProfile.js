@@ -302,11 +302,11 @@ const InvestorUserProfile = () => {
             icon: "success",
           });
         } catch (error) {
-          console.error("Error updating logo:", error);
+          console.error("Error updating logo:", error.response || error); // Log the full error response
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Something went wrong while adding logo. Please try again!",
+            text: error.response?.data?.message || "Something went wrong while adding logo. Please try again!",
           });
         }
       }
