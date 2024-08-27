@@ -101,6 +101,12 @@ let signup = async (req, res) => {
   let { name, email, password, location, phonenumber } = req.body;
 
   try {
+
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
     const users = await userModel.find();
     console.log("Fetched users from database:", users);
 
@@ -166,6 +172,12 @@ const updateSignupInfo = async (req, res) => {
     const { id } = req.params; // Extract `id` from params
     const updates = req.body;
     const { password } = req.body; // Extract password from body
+    const {email} = req.body;
+
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
 
     // Validate password length and complexity
     if (password && !validatePassword(password)) {
