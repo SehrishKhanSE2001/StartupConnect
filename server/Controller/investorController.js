@@ -54,8 +54,20 @@ const addInvestor = async (req, res) => {
   try {
     const newInvestor = new investor(req.body);
 
-    if (req.files && req.files["logo"]) {
+    if (req.files && req.files["logo"]) { 
       const file = req.files["logo"][0];
+      
+      // Log file informationn
+      console.log("File details:", {
+        originalname: file.originalname,
+        mimetype: file.mimetype,
+        size: file.size,
+      });
+
+      if (!file || !file.buffer) {
+        throw new Error("File buffer is missing");
+      }
+
       const fileStream = Readable.from(file.buffer);
 
       // Upload the file directly to Cloudinary
@@ -85,7 +97,6 @@ const addInvestor = async (req, res) => {
     res.status(500).json({ message: "Error adding investor", error: error.message });
   }
 };
-
 
 const getAllInvestors = async (req, res) => {
   try {
