@@ -89,6 +89,11 @@ const addInvestor = async (req, res) => {
     if (req.files && req.files["logo"]) {
       const file = req.files["logo"][0];
       const uploadResponse = await cloudinary.uploader.upload(file.path);
+
+      if (uploadResponse.error) {
+        throw new Error(uploadResponse.error.message);
+      }
+
       newInvestor.logo = uploadResponse.secure_url;
     }
 
@@ -99,6 +104,7 @@ const addInvestor = async (req, res) => {
     res.status(500).json({ message: "Error adding investor", error: error.message });
   }
 };
+
 
 
 const getInvestorByUserId = async (req, res) => {
