@@ -2,7 +2,7 @@ const userModel = require("../models/User");
 const investorModel = require("../models/Investor");
 const startupModel = require("../models/Startup");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { default: mongoose } = require("mongoose");
 
 // const defaultAdmin = {
