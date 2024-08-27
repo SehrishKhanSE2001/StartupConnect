@@ -56,7 +56,7 @@ const HomePage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://startup-connect-dun.vercel.app/user/signup",   //https://startup-connect-dun.vercel.app/
+        "https://startup-connect-backend.vercel.app/user/signup",   
         
         formData,
         {
@@ -169,7 +169,7 @@ const HomePage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://startup-connect-dun.vercel.app/user/adminlogin",
+        "https://startup-connect-backend.vercel.app/user/adminlogin",
         adminLoginFormData,
         {
           headers: {
