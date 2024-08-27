@@ -136,7 +136,7 @@ const CurveSection = () => {
         try {
           // Fetch the startup data
           const response = await axios.get(
-            `https://startup-connect-backend.vercel.app/getStartupId/${startup_id}`
+            `https://startup-connect-backend.vercel.app/startup/getStartupId/${startup_id}`
           );
           console.log(
             "This is response.data.mostViewed before updating it: " +
@@ -454,7 +454,7 @@ const CurveSection = () => {
                     <div className="flexBox" key={index}>
                       {startup.logo && (
                         <img
-                          src={`http://localhost:3000/${startup.logo}`}
+                          src={`https://startup-connect-backend.vercel.app/${startup.logo}`}
                           alt="Logo"
                           style={{ height: "210px" }}
                           className="logo-image"
@@ -509,7 +509,7 @@ const CurveSection = () => {
                     <div className="flexBox" key={index}>
                       {investor.logo && (
                         <img
-                          src={`http://localhost:3000/${investor.logo}`}
+                          src={`https://startup-connect-backend.vercel.app/${investor.logo}`}
                           alt="Logo"
                           style={{ height: "210px" }}
                           className="logo-image"
