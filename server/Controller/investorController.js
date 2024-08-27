@@ -231,7 +231,36 @@ const updateInvestor = async (req, res) => {
 
     if (req.files && req.files["logo"]) {
       const file = req.files["logo"][0];
-      const uploadResponse = await cloudinary.uploader.upload(file.path);
+
+      // Log file details
+      console.log("File details:", {
+        originalname: file.originalname,
+        mimetype: file.mimetype,
+        size: file.size,
+      });
+
+      if (!file || !file.buffer) {
+        throw new Error("File buffer is missing");
+      }
+
+      // Upload the file directly to Cloudinary
+      const uploadResponse = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream({ resource_type: "auto" }, (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        });
+
+        // Pipe file buffer to Cloudinary
+        uploadStream.end(file.buffer);
+      });
+
+      if (uploadResponse.error) {
+        throw new Error(uploadResponse.error.message);
+      }
+
       updateData.logo = uploadResponse.secure_url;
     }
 
@@ -246,6 +275,7 @@ const updateInvestor = async (req, res) => {
     res.status(500).json({ message: "Error updating the investor", error: error.message });
   }
 };
+
 
 
 const updateInvestorByUserId = async (userId, updateData) => {

@@ -343,7 +343,7 @@ const HomePage = () => {
               type={showAdminLoginPassword ? "text" : "password"}
               name="password"
               value={adminLoginFormData.password}
-              onChange={handleInputChange3} // Ensure password input change is handled
+              onChange={handleInputChange3} // Ensure password input change is handledd
               placeholder="Password"
               required
             />
