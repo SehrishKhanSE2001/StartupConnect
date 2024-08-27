@@ -287,8 +287,7 @@ const InvestorUserProfile = () => {
               }
             );
   
-            // Save the ID of the newly created investor
-            setInvestorId(response.data._id);
+            setInvestorId(response.data._id); // Save the ID of the newly created investor
           }
   
           setInvestorFormData((prevFormData) => ({
@@ -302,7 +301,16 @@ const InvestorUserProfile = () => {
             icon: "success",
           });
         } catch (error) {
-          console.error("Error updating logo:", error.response || error); // Log the full error response
+          console.error("Error updating logo:", error); // Log the complete error object
+          if (error.response) {
+            console.error("Error response data:", error.response.data);
+            console.error("Error response status:", error.response.status);
+            console.error("Error response headers:", error.response.headers);
+          } else if (error.request) {
+            console.error("Error request:", error.request);
+          } else {
+            console.error("Error message:", error.message);
+          }
           Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -312,6 +320,8 @@ const InvestorUserProfile = () => {
       }
     }
   };
+  
+  
   
 
 
