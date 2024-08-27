@@ -136,7 +136,7 @@ const HomePage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/user/login",
+        "https://startup-connect-dun.vercel.app/user/login",
         LoginFormData,
         {
           headers: {
@@ -168,7 +168,7 @@ const HomePage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/user/adminlogin",
+        "https://startup-connect-dun.vercel.app/user/adminlogin",
         adminLoginFormData,
         {
           headers: {
