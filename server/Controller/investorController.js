@@ -17,6 +17,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const uploadFields = upload.fields([{ name: "logo", maxCount: 1 }]);
+
+//cloudinary code
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,  // Replace with your cloud name if hardcoding
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+
+
+
 const getAllInvestors = async (req, res) => {
   try {
     const investor1 = await investor.find();
@@ -44,30 +57,49 @@ const getInvestorById = async (req, res) => {
   }
 };
 
+// const addInvestor = async (req, res) => {
+//   try {
+//     // Create a new investor with the request body
+//     const newInvestor = new investor(req.body);
+
+//     // Check if logo file is present
+//     const logo =
+//       req.files && req.files["logo"] ? req.files["logo"][0].path : null;
+
+//     // If a logo is present, update the investor's logo field
+//     if (logo) {
+//       newInvestor.logo = logo;
+//     }
+
+//     // Save the new investor
+//     const savedInvestor = await newInvestor.save();
+//     res.status(201).json(savedInvestor);
+//   } catch (error) {
+//     console.error("Error adding investor:", error);
+//     res
+//       .status(500)
+//       .json({ message: "Error adding investor", error: error.message });
+//   }
+// };
+
 const addInvestor = async (req, res) => {
   try {
-    // Create a new investor with the request body
     const newInvestor = new investor(req.body);
 
-    // Check if logo file is present
-    const logo =
-      req.files && req.files["logo"] ? req.files["logo"][0].path : null;
-
-    // If a logo is present, update the investor's logo field
-    if (logo) {
-      newInvestor.logo = logo;
+    if (req.files && req.files["logo"]) {
+      const file = req.files["logo"][0];
+      const uploadResponse = await cloudinary.uploader.upload(file.path);
+      newInvestor.logo = uploadResponse.secure_url;
     }
 
-    // Save the new investor
     const savedInvestor = await newInvestor.save();
     res.status(201).json(savedInvestor);
   } catch (error) {
     console.error("Error adding investor:", error);
-    res
-      .status(500)
-      .json({ message: "Error adding investor", error: error.message });
+    res.status(500).json({ message: "Error adding investor", error: error.message });
   }
 };
+
 
 const getInvestorByUserId = async (req, res) => {
   try {
@@ -99,44 +131,68 @@ const deleteInvestor = async (req, res) => {
   }
 };
 
+// const updateInvestor = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const updateData = req.body;
+
+//     // Check if logo file is present in the request
+//     const logo =
+//       req.files && req.files["logo"] ? req.files["logo"][0].path : null;
+
+//     // If a logo is present, include it in the updateData
+//     if (logo) {
+//       updateData.logo = logo;
+//     }
+
+//     // Ensure userId is a single value (if applicable)
+//     if (Array.isArray(updateData.user)) {
+//       updateData.user = updateData.user[0]; // Adjust based on your logic
+//     }
+
+//     // Update the investor in the database
+//     const updatedInvestor = await investor.findByIdAndUpdate(id, updateData, {
+//       new: true,
+//     });
+
+//     if (!updatedInvestor) {
+//       return res.status(404).json({ message: "Investor not found" });
+//     }
+
+//     res
+//       .status(200)
+//       .json({ message: "Investor updated successfully!", updatedInvestor });
+//   } catch (error) {
+//     console.error("Error updating investor:", error);
+//     res
+//       .status(500)
+//       .json({ message: "Error updating the investor", error: error.message });
+//   }
+// };
+
 const updateInvestor = async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = req.body;
 
-    // Check if logo file is present in the request
-    const logo =
-      req.files && req.files["logo"] ? req.files["logo"][0].path : null;
-
-    // If a logo is present, include it in the updateData
-    if (logo) {
-      updateData.logo = logo;
+    if (req.files && req.files["logo"]) {
+      const file = req.files["logo"][0];
+      const uploadResponse = await cloudinary.uploader.upload(file.path);
+      updateData.logo = uploadResponse.secure_url;
     }
 
-    // Ensure userId is a single value (if applicable)
-    if (Array.isArray(updateData.user)) {
-      updateData.user = updateData.user[0]; // Adjust based on your logic
-    }
-
-    // Update the investor in the database
-    const updatedInvestor = await investor.findByIdAndUpdate(id, updateData, {
-      new: true,
-    });
-
+    const updatedInvestor = await investor.findByIdAndUpdate(id, updateData, { new: true });
     if (!updatedInvestor) {
       return res.status(404).json({ message: "Investor not found" });
     }
 
-    res
-      .status(200)
-      .json({ message: "Investor updated successfully!", updatedInvestor });
+    res.status(200).json({ message: "Investor updated successfully!", updatedInvestor });
   } catch (error) {
     console.error("Error updating investor:", error);
-    res
-      .status(500)
-      .json({ message: "Error updating the investor", error: error.message });
+    res.status(500).json({ message: "Error updating the investor", error: error.message });
   }
 };
+
 
 const updateInvestorByUserId = async (userId, updateData) => {
   try {
