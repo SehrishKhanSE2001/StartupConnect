@@ -22,6 +22,16 @@ app.use("/investor",investorRoutes);
 app.use("/email",emailRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // added by myslef
 
+// Root route
+app.get('/', (req, res) => {
+    res.send('Welcome to the Startup Connect API');
+});
+
+// Serve favicon
+app.get('/favicon.ico', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'favicon.ico'));
+});
+
 const mongoose=require("mongoose")
 
 mongoose.connect(process.env.MONGO_URL).then(()=>{
