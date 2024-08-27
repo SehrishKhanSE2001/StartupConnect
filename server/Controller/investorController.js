@@ -115,6 +115,7 @@ const addInvestor = async (req, res) => {
 
 
 
+
 const getInvestorByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
