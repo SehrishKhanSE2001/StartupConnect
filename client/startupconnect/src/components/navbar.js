@@ -30,7 +30,7 @@ export default function Navbar(props) {
     const fetchData = async () => {
       try {
         let response = await axios.get(
-          `http://localhost:3000/user/getSpecificUser/${props.userId}`
+          `https://startup-connect-backend.vercel.app/user/getSpecificUser/${props.userId}`
         );
         let data = response.data;
         console.log("USER DATA IS:", data);
@@ -98,7 +98,7 @@ export default function Navbar(props) {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/user/updateSignupInfo/${props.userId}`,
+        `https://startup-connect-backend.vercel.app/user/updateSignupInfo/${props.userId}`,
         formData
       );
       if (response) {

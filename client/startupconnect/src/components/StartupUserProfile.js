@@ -40,7 +40,7 @@ const StartupUserProfile = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/investor/getAllInvestors`
+          `https://startup-connect-backend.vercel.app/investor/getAllInvestors`
         );
         const data = response.data;
         setInvestors(data); // Directly set the data as an array
@@ -60,7 +60,7 @@ const StartupUserProfile = () => {
       console.log("Fetching data for userId:", userId);
       try {
         const response = await axios.get(
-          `http://localhost:3000/startup/getStartupByUserId/${userId}`
+          `https://startup-connect-backend.vercel.app/startup/getStartupByUserId/${userId}`
         );
         const data = response.data;
         console.log("`````````````````````````Fetched data:", data);
@@ -224,7 +224,7 @@ const StartupUserProfile = () => {
   const deleteStartup1 = async () => {
     try {
       await axios.delete(
-        `http://localhost:3000/startup/deleteStartupByUserId/${userId}`
+        `https://startup-connect-backend.vercel.app/startup/deleteStartupByUserId/${userId}`
       );
       {
         Swal.fire({
@@ -320,7 +320,7 @@ const StartupUserProfile = () => {
     try {
       let response;
       response = await axios.put(
-        `http://localhost:3000/startup/updateStartup/${startupId}`,
+        `https://startup-connect-backend.vercel.app/startup/updateStartup/${startupId}`,
         payload
       );
       console.log("Startup updated successfully", response.data);
@@ -361,13 +361,13 @@ const StartupUserProfile = () => {
       let response;
       if (startupId) {
         response = await axios.put(
-          `http://localhost:3000/startup/updateStartup/${startupId}`,
+          `https://startup-connect-backend.vercel.app/startup/updateStartup/${startupId}`,
           payload
         );
       } else {
         console.log("Registering new startup");
         response = await axios.post(
-          "http://localhost:3000/startup/registerStartup",
+          "https://startup-connect-backend.vercel.app/startup/registerStartup",
           payload
         );
         setstartupId(response.data._id); // Save the ID of the newly created startup
@@ -405,7 +405,7 @@ const StartupUserProfile = () => {
 
     try {
       await axios.put(
-        `http://localhost:3000/startup/updateStartupImageId/${startupId}`,
+        `https://startup-connect-backend.vercel.app/startup/updateStartupImageId/${startupId}`,
         formDataToSend,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

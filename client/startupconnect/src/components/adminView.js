@@ -20,7 +20,7 @@ const AdminView = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios("http://localhost:3000/user/getAllUsers");
+        const response = await axios("https://startup-connect-backend.vercel.app/user/getAllUsers");     // http://localhost:3000
         setUserData(response.data);
       } catch (error) {
         console.log("Error fetching User Data:", error);
@@ -32,7 +32,7 @@ const AdminView = () => {
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
-        const response = await axios("http://localhost:3000/user/getAdmin");
+        const response = await axios("https://startup-connect-backend.vercel.app/user/getAdmin");
         console.log(response.data);
         setAdminData(response.data.admin);
         console.log(
@@ -78,7 +78,7 @@ const AdminView = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:3000/user/adminUpdate/${adminData._id}`,
+        `https://startup-connect-backend.vercel.app/user/adminUpdate/${adminData._id}`,
         payload
       );
       console.log("Admin credentials updated successfully!", response.data);
@@ -101,7 +101,7 @@ const AdminView = () => {
   const handleStartupView = async (userId) => {
     try {
       let response = await axios.get(
-        `http://localhost:3000/startup/getStartupByUserId/${userId}`
+        `https://startup-connect-backend.vercel.app/startup/getStartupByUserId/${userId}`
       );
       let data = response.data;
       let id = data._id;
@@ -115,7 +115,7 @@ const AdminView = () => {
   const handleInvestorView = async (userId) => {
     try {
       let response = await axios.get(
-        `http://localhost:3000/investor/getInvestorByUserId/${userId}`
+        `https://startup-connect-backend.vercel.app/investor/getInvestorByUserId/${userId}`
       );
       let data = response.data.Investor;
       let id = data._id;

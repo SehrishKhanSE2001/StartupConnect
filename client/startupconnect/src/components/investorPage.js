@@ -73,7 +73,7 @@ export default function StartupPage() {
       try {
         console.log("THIS IS INVESTOR-ID : " + id);
         const response = await axios.get(
-          `http://localhost:3000/investor/getInvestorById/${id}`
+          `https://startup-connect-backend.vercel.app/investor/getInvestorById/${id}`
         );
         const data = response.data.foundInvestor;
         console.log("DATA: " + data);
@@ -112,7 +112,7 @@ export default function StartupPage() {
           const responses = await Promise.all(
             investorsInfo.summaryOfInvestment.map(async (investment) => {
               const response = await axios.get(
-                `http://localhost:3000/startup/getStartupId/${investment.startupsId}`
+                `https://startup-connect-backend.vercel.app/startup/getStartupId/${investment.startupsId}`
               );
               return response.data; // Assuming response.data contains the startup data
             })
@@ -134,7 +134,7 @@ export default function StartupPage() {
       const fetchData2 = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/user/getSpecificUser/${userId1}`
+            `https://startup-connect-backend.vercel.app/user/getSpecificUser/${userId1}`
           );
           const data = response.data;
           console.log("Fetched user data:", data);
@@ -165,7 +165,7 @@ export default function StartupPage() {
           const responses = await Promise.all(
             investorsInfo.summaryOfInvestment.map(async (startupId) => {
               const response = await axios.get(
-                `http://localhost:3000/startup/getStartupId/${startupId}`
+                `https://startup-connect-backend.vercel.app/startup/getStartupId/${startupId}`
               );
               return response.data; // Assuming response.data contains the startup data
             })
@@ -187,7 +187,7 @@ export default function StartupPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/startup/getAllStartups`
+          `https://startup-connect-backend.vercel.app/startup/getAllStartups`
         );
         const data = response.data;
         setStartups(data); // Directly set the data as an array

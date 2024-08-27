@@ -41,7 +41,7 @@ const InvestorUserProfile = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/startup/getAllStartups`
+          `https://startup-connect-backend.vercel.app/startup/getAllStartups`
         );
         const data = response.data;
         setStartups(data); // Directly set the data as an array
@@ -61,7 +61,7 @@ const InvestorUserProfile = () => {
       console.log("Fetching data for userId:", userId);
       try {
         const response = await axios.get(
-          `http://localhost:3000/investor/getInvestorByUserId/${userId}`
+          `https://startup-connect-backend.vercel.app/investor/getInvestorByUserId/${userId}`
         );
         const data = response.data.Investor;
         console.log("Fetched data:", data);
@@ -171,7 +171,7 @@ const InvestorUserProfile = () => {
     if (window.confirm("Are you sure you want to delete this investor?")) {
       try {
         await axios.delete(
-          `http://localhost:3000/investor/deleteInvestor/${investorId}`
+          `https://startup-connect-backend.vercel.app/investor/deleteInvestor/${investorId}`
         );
         {
           Swal.fire({
@@ -212,7 +212,7 @@ const InvestorUserProfile = () => {
           let response;
           if (investorId) {
             response = await axios.put(
-              `http://localhost:3000/investor/updateInvestor/${investorId}`,
+              `https://startup-connect-backend.vercel.app/investor/updateInvestor/${investorId}`,
               formData,
               {
                 headers: {
@@ -222,7 +222,7 @@ const InvestorUserProfile = () => {
             );
           } else {
             response = await axios.post(
-              "http://localhost:3000/investor/addInvestor",
+              "https://startup-connect-backend.vercel.app/investor/addInvestor",
               formData
             );
 
@@ -306,7 +306,7 @@ const InvestorUserProfile = () => {
     };
     try {
       const response = await axios.put(
-        `http://localhost:3000/investor/updateInvestor/${investorId}`,
+        `https://startup-connect-backend.vercel.app/investor/updateInvestor/${investorId}`,
         payload
       );
       Swal.fire({
@@ -350,13 +350,13 @@ const InvestorUserProfile = () => {
       if (investorId) {
         console.log("Updating existing investorId:", investorId);
         response = await axios.put(
-          `http://localhost:3000/investor/updateInvestor/${investorId}`,
+          `https://startup-connect-backend.vercel.app/investor/updateInvestor/${investorId}`,
           payload
         );
       } else {
         console.log("Registering new investor");
         response = await axios.post(
-          "http://localhost:3000/investor/addInvestor",
+          "https://startup-connect-backend.vercel.app/investor/addInvestor",
           payload
         );
         console.log("++++++++++++++++++++++++++++++++++++++" + response.data);

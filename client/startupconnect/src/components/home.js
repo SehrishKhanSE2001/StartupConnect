@@ -87,7 +87,7 @@ const CurveSection = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/startup/getAllStartups"
+          "https://startup-connect-backend.vercel.app/startup/getAllStartups"
         );
         setStartupsInfo(response.data);
         setSortedStartups(response.data); // Initialize sortedStartups with fetched data
@@ -105,7 +105,7 @@ const CurveSection = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/investor/getAllInvestors"
+          "https://startup-connect-backend.vercel.app/investor/getAllInvestors"
         );
         setinvestorInfo(response.data);
       } catch (error) {
@@ -136,7 +136,7 @@ const CurveSection = () => {
         try {
           // Fetch the startup data
           const response = await axios.get(
-            `http://localhost:3000/startup/getStartupId/${startup_id}`
+            `https://startup-connect-backend.vercel.app/getStartupId/${startup_id}`
           );
           console.log(
             "This is response.data.mostViewed before updating it: " +
@@ -155,7 +155,7 @@ const CurveSection = () => {
 
           // Send the updated data to the server
           await axios.put(
-            `http://localhost:3000/startup/updateStartup/${startup_id}`,
+            `https://startup-connect-backend.vercel.app/startup/updateStartup/${startup_id}`,
             updatedData
           );
 

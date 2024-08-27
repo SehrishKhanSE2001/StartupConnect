@@ -71,7 +71,7 @@ export default function StartupPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/startup/getStartupId/${id}`
+          `https://startup-connect-backend.vercel.app/startup/getStartupId/${id}`
         );
         const data = response.data;
         console.log("Fetched startup data:", data);
@@ -109,7 +109,7 @@ export default function StartupPage() {
       const fetchData2 = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/user/getSpecificUser/${userId1}`
+            `https://startup-connect-backend.vercel.app/user/getSpecificUser/${userId1}`
           );
           const data = response.data;
           console.log("Fetched user data:", data);
@@ -136,7 +136,7 @@ export default function StartupPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/investor/getAllInvestors`
+          `https://startup-connect-backend.vercel.app/investor/getAllInvestors`
         );
         const data = response.data;
         setInvestors(data); // Directly set the data as an array
@@ -192,13 +192,13 @@ export default function StartupPage() {
   const handleInterestClick = async () => {
     console.log("You are in handleInterestClick function");
     try {
-      const response = await axios.get(`http://localhost:3000/user/checkInvestorIdCorrespondingToUser/${userId}`);
+      const response = await axios.get(`https://startup-connect-backend.vercel.app/user/checkInvestorIdCorrespondingToUser/${userId}`);
       const investorId = response.data.investorId;
   
       console.log("Investor ID fetched:", investorId);
   
       if (investorId != null) {
-        const startupResponse = await axios.get(`http://localhost:3000/startup/getStartupId/${id}`);
+        const startupResponse = await axios.get(`https://startup-connect-backend.vercel.app/startup/getStartupId/${id}`);
         console.log('Startup data:', startupResponse.data.user);
   
         if (startupResponse.data.user === userId) {
@@ -245,7 +245,7 @@ export default function StartupPage() {
       // Update startup information
       try {
         await axios.put(
-          `http://localhost:3000/startup/updateStartup/${id}`,
+          `https://startup-connect-backend.vercel.app/startup/updateStartup/${id}`,
           startupsInfo
         );
         console.log("Startup info successfully updated");
@@ -261,7 +261,7 @@ export default function StartupPage() {
       let response;
       try {
         response = await axios.get(
-          `http://localhost:3000/investor/getInvestorByUserId/${userId}`
+          `https://startup-connect-backend.vercel.app/investor/getInvestorByUserId/${userId}`
         );
         console.log("Fetched investor data:", response.data);
       } catch (error) {
@@ -303,7 +303,7 @@ export default function StartupPage() {
       // Update investor info
       try {
         await axios.put(
-          `http://localhost:3000/investor/updateInvestor/${investorData._id}`,
+          `https://startup-connect-backend.vercel.app/investor/updateInvestor/${investorData._id}`,
           investorData
         );
         console.log("Investor info successfully updated");
@@ -323,7 +323,7 @@ export default function StartupPage() {
     let investorPhonenumber;
     try {
       let response = await axios.get(
-        `http://localhost:3000/user/getSpecificUser/${userId}`
+        `https://startup-connect-backend.vercel.app/user/getSpecificUser/${userId}`
       );
       investorEmail = response.data.email;
       investorPhonenumber = response.data.phonenumber;
@@ -335,12 +335,12 @@ export default function StartupPage() {
     let startupPhonenumber;
     try {
       let response = await axios.get(
-        `http://localhost:3000/startup/getStartupId/${id}`
+        `https://startup-connect-backend.vercel.app/startup/getStartupId/${id}`
       );
       let userid = response.data.user;
       console.log("startup user: " + response.data);
       let res = await axios.get(
-        `http://localhost:3000/user/getSpecificUser/${userid}`
+        `https://startup-connect-backend.vercel.app/user/getSpecificUser/${userid}`
       );
       console.log("startup Email data : " + response.data);
       startupEmail = res.data.email;
@@ -352,7 +352,7 @@ export default function StartupPage() {
 
     try {
       const emailResponse = await axios.post(
-        "http://localhost:3000/email/sendEmail",
+        "https://startup-connect-backend.vercel.app/email/sendEmail",
         {
           startupEmail: startupEmail,
           startupName: startupsInfo.name,
