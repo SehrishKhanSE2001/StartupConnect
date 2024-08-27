@@ -56,8 +56,8 @@ const HomePage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        // "http://localhost:3000/user/signup",
-        "https://startup-connect-dun.vercel.app/user/signup",
+        "http://startup-connect-dun.vercel.app/user/signup",   //https://startup-connect-dun.vercel.app/
+        
         formData,
         {
           headers: {
