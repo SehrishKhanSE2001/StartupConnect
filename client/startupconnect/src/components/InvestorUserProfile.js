@@ -487,7 +487,7 @@ const InvestorUserProfile = () => {
           <img
             src={
               investorFormData.logo
-                ? `https://startup-connect-backend.vercel.app/${investorFormData.logo}`
+                ? investorFormData.logo    //  `http://localhost:3000/${investorFormData.logo}` 
                 : ""
             }
             alt="Investor Logo"
