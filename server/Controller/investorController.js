@@ -1,37 +1,90 @@
 const { default: mongoose } = require("mongoose");
 const investor = require("../models/Investor");
 
-const multer = require("multer");
-const path = require("path");
+// const multer = require("multer");
+// const path = require("path");
 
-// Set up multer for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Ensure 'uploads/' directory exists
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
+// // Set up multer for file uploads
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads/"); // Ensure 'uploads/' directory exists
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
-const uploadFields = upload.fields([{ name: "logo", maxCount: 1 }]);
+// const uploadFields = upload.fields([{ name: "logo", maxCount: 1 }]);
 
-//cloudinary code
-const cloudinary = require('cloudinary').v2;
+// //cloudinary code
+// const cloudinary = require('cloudinary').v2;
 
+// cloudinary.config({
+//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,  // Replace with your cloud name if hardcoding
+//   api_key: process.env.CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_API_SECRET,
+// });
+
+// console.log("Cloudinary Configuration:", {
+//   cloud_name: cloudinary.config().cloud_name,
+//   api_key: cloudinary.config().api_key,
+//   api_secret: cloudinary.config().api_secret,
+// });
+
+const { v2: cloudinary } = require('cloudinary');
+const multer = require('multer');
+const { Readable } = require('stream');
+
+// Cloudinary configuration
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,  // Replace with your cloud name if hardcoding
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-console.log("Cloudinary Configuration:", {
-  cloud_name: cloudinary.config().cloud_name,
-  api_key: cloudinary.config().api_key,
-  api_secret: cloudinary.config().api_secret,
-});
+// Set up multer for file uploads with memory storage
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+const uploadFields = upload.fields([{ name: "logo", maxCount: 1 }]);
+
+const addInvestor = async (req, res) => {
+  try {
+    const newInvestor = new investor(req.body);
+
+    if (req.files && req.files["logo"]) {
+      const file = req.files["logo"][0];
+      const fileStream = Readable.from(file.buffer);
+
+      // Upload the file directly to Cloudinary
+      const uploadResponse = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream({ resource_type: "auto" }, (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        });
+
+        fileStream.pipe(uploadStream);
+      });
+
+      if (uploadResponse.error) {
+        throw new Error(uploadResponse.error.message);
+      }
+
+      newInvestor.logo = uploadResponse.secure_url;
+    }
+
+    const savedInvestor = await newInvestor.save();
+    res.status(201).json(savedInvestor);
+  } catch (error) {
+    console.error("Error adding investor:", error);
+    res.status(500).json({ message: "Error adding investor", error: error.message });
+  }
+};
 
 
 const getAllInvestors = async (req, res) => {
@@ -86,31 +139,6 @@ const getInvestorById = async (req, res) => {
 //   }
 // };
 
-const addInvestor = async (req, res) => {
-  try {
-    const newInvestor = new investor(req.body);
-
-    if (req.files && req.files["logo"]) {
-      const file = req.files["logo"][0];
-      console.log("File path before uploading to Cloudinary:", file.path); // Log file path
-
-      const uploadResponse = await cloudinary.uploader.upload(file.path);
-      console.log("Cloudinary response:", uploadResponse); // Log Cloudinary response
-
-      if (uploadResponse.error) {
-        throw new Error(uploadResponse.error.message);
-      }
-
-      newInvestor.logo = uploadResponse.secure_url;
-    }
-
-    const savedInvestor = await newInvestor.save();
-    res.status(201).json(savedInvestor);
-  } catch (error) {
-    console.error("Error adding investor:", error);
-    res.status(500).json({ message: "Error adding investor", error: error.message });
-  }
-};
 
 
 
