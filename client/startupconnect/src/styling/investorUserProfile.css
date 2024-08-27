@@ -25,11 +25,14 @@ html, body {
     height: auto;
 }
 
-
+.investor-inner-container{
+    margin-top:150px;
+}
 
 
 .Investor-buttons {
     margin-bottom: 20px;
+    
 }
 
 .AddUpdateButton, .ViewInvestmentDetailsButton {
@@ -173,9 +176,9 @@ html, body {
 .investorButtons-row {
     display: flex;
     justify-content: flex-start; 
-    margin-left: auto;
-    margin-right: auto;
+    
     margin-top: -100px;
+    margin-left:650px;
 } 
 
 .actions {
@@ -286,7 +289,6 @@ html, body {
         padding: 8px; /* Adjust padding for mobile */
     }
 }
-/*|||||||||||||||||||||||||||||||||||||*/
 .investor-details {
     background-color: #f9f9f9;
     border-radius: 10px;
@@ -297,8 +299,7 @@ html, body {
     overflow-y: auto; /* Add a scroll bar if content overflows */
     margin-left: auto;
     margin-right: auto;
-  
-    /* Centering the form */
+    width:1000px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -316,20 +317,23 @@ html, body {
     border: 2px solid #ddd;
   }
   
-  h2 {
-    text-align: center;
-    color: white;
-  }
+ 
   
   p {
-    color: white;
-    line-height: 1.6;
+    color: black;
+ 
+    font-family: "Poiret One", sans-serif;
   }
   
   p strong {
     color: #000;
   }
-  
+  .investor-title{
+    margin: 10px 0;
+    font-size: 1.5em;
+    text-align:center;
+    font-family: "Poiret One", sans-serif;
+  }
   .investedStartupt123 {
     border-top: 1px solid #ddd;
     padding-top: 15px;
@@ -357,21 +361,5 @@ html, body {
     color: #333;
   }
   
-  .close-details {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-    font-size: 16px;
-    text-align: center;
-  }
-  
-  .close-details:hover {
-    background-color: #0056b3;
-  }
+
   

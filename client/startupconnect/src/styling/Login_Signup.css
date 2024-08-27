@@ -202,17 +202,18 @@ html, body {
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 600px;
-  height: 400px;
+  height: 600px;
   max-width: 90%;
 }
 
 .signup-form h2 {
   margin-bottom: 20px;
+  margin-left:250px;
 }
 
 .signup-form input,
 .signup-form select {
-  width: calc(100% - 9px);
+  width: calc(95% - 9px);
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
@@ -222,6 +223,7 @@ html, body {
 .signup-form button {
   width: calc(100% - 20px);
   padding: 10px;
+  margin-bottom:10px;
   border: none;
   border-radius: 4px;
   background: #007bff;
@@ -245,7 +247,7 @@ html, body {
 }
 
 .login-form input {
-  width: 100%;
+  width: 96%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
@@ -261,8 +263,17 @@ html, body {
   color: #fff;
   font-size: 16px;
   cursor: pointer;
+  margin-bottom:10px;
 }
 
 .login-form button:hover {
   background-color: #0056b3;
 } 
+.adminLogin {
+  margin-top:10px;
+  font-size:1.2em
+}
+.experience-now , .login{
+   
+  font-size:1.2em
+}

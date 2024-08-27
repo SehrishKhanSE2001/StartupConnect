@@ -10,6 +10,7 @@
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    margin-top:-30px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -18,35 +19,7 @@
     margin-top:-30px;
 }
 
-/* .search-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    margin: 20px;
-    border-radius: 5px;
-    width: 96%;
-}
-.search-bar-input{
-  background-color: white;
-}
 
-.search-icon {
-  width: 24px; 
-  height: 24px; 
-  cursor: pointer; 
-  margin-right:900px;
-}
-
-.search-bar input {
-    width: 400px;
-    padding: 10px 10px 10px 40px;
-    border: 1px solid #E0E0E0;
-    border-radius: 5px;
-    background-size: 20px 20px;
-    background-color: white;
-   
-} */
 .search-bar {
   display: flex;
   justify-content: space-between;
@@ -124,7 +97,7 @@
     max-width: 40%;
     text-align: right;
     z-index: 1;
-    margin-top:-360px;
+    margin-top:-380px;
     margin-left:700px;
 }
 
@@ -132,14 +105,21 @@
     height: auto;
     font-family: "Poiret One", sans-serif;
     font-size: 4.0em;
-   margin-left:-200px;
+   margin-left:-40px;
 }
+
+
 
 .bulb {
     height: auto;
-    max-width: 250px;
+    max-width: 300px;
     margin-left:-300px;
-    margin-top:-200px;
+    margin-top:-250px;
+}
+.bulb-attribute-artist {
+  margin-top: 8px; /* Adjust spacing as needed */
+  margin-left:-220px;
+  font-size: 12px; /* Optional: adjust the text size */
 }
 
 .miniDescription1 {
@@ -148,7 +128,7 @@
     max-width: 500px;
     font-size: 1.0em;
     margin-top:-100px;
-    margin-left:-100px;
+    margin-left:-40px;
 }
 
 @media (max-width: 768px) {
@@ -267,7 +247,12 @@
 .rocket:hover {
     animation: circularMovement 2s linear infinite; /* Apply animation on hover */
 }
-
+.rocket-attribute-artist{
+  margin-top: -40px; /* Add space between image and attribute text */
+  margin-right:150px;
+    font-size: 14px;  /* Adjust font size if needed */
+    color: #555; 
+}
 .bulb {
     transition: transform 0.3s ease; /* Smooth transition for scaling */
   }
@@ -276,6 +261,7 @@
     transform: scale(1.2); /* Scale up the image on hover */
   }
 
+  
  
    .flexContainer {
     display: grid;
@@ -287,20 +273,7 @@
     transform: translateX(-40px); /* Shift the container 20px to the left */
   }
   
-  /* .flexBox {
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    border: 1px solid #d5dfe8;
-    background-color:#f5f4f1;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px;
-    text-align: center;
-    height: 300px; 
-    justify-content: space-between; 
-    
-  } */
+
   .flexBox {
     display: flex;
     flex-direction: column;
@@ -331,11 +304,12 @@
     padding: 8px 16px; /* Padding inside the button */
     font-size: 16px; /* Font size */
     cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s ease; /* Smooth transition */
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth transition for all properties */
   }
   
   button:hover {
-    background-color: #f4e77a; /* Darker blue when hovering */
+   /* background-color: #f4e77a; I HAVE CHNAGED IT BECUASE IT WAS CAUSING PROBLEM*/
+   transform:scale(1.02)
   }
   
   button:focus {
@@ -390,13 +364,7 @@
     font-size: 1.0em;
   }
   
-  /* .logo-image{
-  width: 80%;
-  height: auto;
-  display: block;
-  border-radius: 2%;
-  margin:0;
-} */
+
 .flexBox img {
     position: absolute;
     top: 0;
@@ -407,36 +375,40 @@
     border-radius: 8px 8px 0 0; /* Rounded corners on top only, if desired */
 }
 
-/* Ensure the button and text are placed on top of the image */
+
 .flexBox > *:not(img) {
     position: relative; /* Place other content above the image */
     z-index: 1; /* Ensure other content is above the image */
 }
 
-/*222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222*/
 
-/* Container for other elements (if necessary) */
-.image1Container {
-    position: relative; /* Ensure it is positioned relative to .icons */
+.icons {
+  display: flex;
+  justify-content: space-around;
+  margin-top:20px;
 }
 
-/* Ensure icons div is positioned above everything */
-.icons {
-     /* Fixed position for staying in the same place when scrolling */
-    top: 10px; /* Adjust the distance from the top */
-    right: 10px; /* Adjust the distance from the right */
-    z-index: 1000; /* High z-index to ensure it’s above other elements */
-    display: flex;
-    gap: 10px; /* Space between icons */
-    padding: 10px; /* Optional: Add padding if needed */
-    border-radius: 5px; /* Optional: Rounded corners */
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-container img {
+  margin-bottom: 4px; /* Adjust the spacing between the image and label */
+}
+
+.icon-container label {
+  margin-top: 6px; /* Adjust spacing if necessary */
+  color:black;
+  text-align: center;
 }
 
 /* Icons styling */
 .icons img {
-    width: 30px; /* Adjust size as needed */
-    height: 30px; /* Adjust size as needed */
-    cursor: pointer; /* Pointer cursor on hover */
+    width: 30px;
+    height: 30px;
+    cursor: pointer; 
    
 
   
@@ -446,72 +418,25 @@
     transform: scale(1.2); /* Enlarge icon */
     
   }
-
-  /* .moreBar {
-    position: absolute;
-    top: 80px; 
-    right: 20px; 
-    width:100px;
-    height:100px;
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  .moreBarForNavigation {
+    background-color: white;
     padding: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: auto;
     display: flex;
-    align-items: center;
-    gap: 10px; 
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 8px;
+    width: 200px; /* Adjust width as needed */
+    position: absolute; /* Absolute positioning */
+    top: 115px; /* Adjust top position as needed */
+    right: 5px; /* Adjust right position as needed */
+    z-index: 1000; /* Ensure it is on top of other content */
   }
-  
-  .moreBar img {
-    width: 20px; 
-    height: 20px; 
-    border-radius: 50%; 
-    margin-bottom:70px;
-  }
-  
-  .moreBar button {
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-bottom:70px;
-    margin-left:-9px;
-    width:100px;
-  }
-  
-  .moreBar button:hover {
-    background-color: #f2e967;
-  } */
-
-  .moreBar {
-    position: absolute; /* Or 'fixed' if you want it to stay in the same place on scroll */
-    top: 80px; /* Adjust to your needs */
-    right: 5px; /* Adjust to your needs */
-    width: 100px;
-    height: 100px;
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
-    z-index: 1000; /* Ensure it appears above other content */
-  }
-  
-  /* Arrow pointing upwards */
-  .moreBar::before {
+  .moreBarForNavigation::before {
     content: '';
     position: absolute;
     bottom: 100%; /* Position the arrow above the moreBar */
-    left: 50%; /* Center the arrow horizontally relative to the moreBar */
+    left: 75%; /* Center the arrow horizontally relative to the moreBar */
     transform: translateX(-50%); /* Center the arrow */
     width: 0;
     height: 0;
@@ -520,32 +445,24 @@
     border-color: transparent transparent #fff transparent; /* Arrow color and direction */
   }
   
-  /* Container for image and button */
-  .moreBarContent {
-    display: flex; /* Align items in a row */
-    align-items: center; /* Center items vertically */
-    gap: 10px; /* Space between the image and the button */
-    margin-top: -60px;
+  .moreBarForNavigation .b {
+    background-color: black; /* Black background for buttons */
+    color: white; /* White text color for buttons */
+    border: none; /* Remove default border */
+    padding: 10px; /* Add padding inside buttons */
+    width: 100%; /* Make buttons take full width of the moreBar */
+    text-align: center; /* Center text inside buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Optional rounded corners for buttons */
+    font-size: 16px; /* Font size for buttons */
   }
+  .arrange-hide{
+   display:none;
+  }
+.arrange-hover:hover + .arrange-hide{
+  display: block;
+  color: rgb(0, 0, 0);
+}
+
   
-  /* Styling for image */
-  .moreBar img {
-    width: 20px; /* Adjust size as needed */
-    height: 20px; /* Adjust size as needed */
-    border-radius: 50%; /* Make the image round */
-  }
-  
-  /* Styling for button */
-  .moreBar button {
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 12px;
-  }
-  
-  .moreBar button:hover {
-    background-color: #f1e165; /* Adjust hover color */
-  }
   

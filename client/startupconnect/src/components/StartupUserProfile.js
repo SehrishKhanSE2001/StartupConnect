@@ -1,253 +1,212 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-// import { useNavigate, useLocation } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import '../styling/startupUserProfile.css';
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "../styling/startupUserProfile.css";
+import Swal from "sweetalert2";
 
-import more from '../images/more.png';
-import home from '../images/home.png';
-import search from '../images/search.png';
-import edit from '../images/edit.png';
-import profile from '../images/profile.png';
-import startup from '../images/b.png';
-import investor from '../images/investment.png';
-import incubator from '../images/incubator.png';
-import camera from '../images/camera.png';
-import adjust from '../images/adjust.png';
-import resize from '../images/remove.png';
-import axios from 'axios';
+import Navbar from "../components/navbar";
 
+
+import startup from "../images/b.png";
+
+import camera from "../images/camera.png";
+
+import axios from "axios";
 
 const StartupUserProfile = () => {
-  const location = useLocation(); 
-  const navigate =useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { userId } = location.state || {};
-  
 
   const [topHalfImage, setTopHalfImage] = useState(null);
   const [teamImage, setTeamImage] = useState(null);
 
-
-
-
-  const [isDraggingTop, setIsDraggingTop] = useState(false);
-  const [offsetTop, setOffsetTop] = useState({ x: 0, y: 0 });
-  const [backgroundPositionTop, setBackgroundPositionTop] = useState({ x: 0, y: 0 });
-
-  const [isDraggingTeam, setIsDraggingTeam] = useState(false);
-  const [offsetTeam, setOffsetTeam] = useState({ x: 0, y: 0 });
-  const [backgroundPositionTeam, setBackgroundPositionTeam] = useState({ x: 0, y: 0 });
-
-  const [imageResize, setImageResize] = useState(100);
-  const [teamImageResize, setTeamImageResize] = useState(100);
   const topHalfImageRef = useRef(null);
   const teamImageRef = useRef(null);
 
-  const [startupId , setstartupId] = useState(0);
-
+  const [startupId, setstartupId] = useState(0);
+  const [investors, setInvestors] = useState([]);
+  const [selectedInvestor, setSelectedInvestor] = useState("");
+  const [interestedInvestors, setinterestedInvestors] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('Submitted Successfully!');
+  const [successMessage, setSuccessMessage] = useState(
+    "Submitted Successfully!"
+  );
 
-  const [showMoreBar, setShowMoreBar] = useState(false); 
+  const [showMoreBar, setShowMoreBar] = useState(false);
 
-  
-useEffect(() => {
-  console.log("Hello from useEffect")
-  console.log("useEffect triggered with userId:", userId);
-  console.log("useEffect triggered with startupId:", startupId);
-
-  const fetchData = async () => {
-    console.log("Fetching data for userId:", userId);
-    try {
-      const response = await axios.get(`http://localhost:3000/startup/getStartupByUserId/${userId}`);
-      const data = response.data;
-      console.log("Fetched data:", data);
-
-      setFormData({
-        name: data.name || '',
-        founders: data.founders || '',
-        aim: data.aim || '',
-        overview: data.overview || '',
-        businessPlan: data.businessPlan || '',
-        projections: data.projections || '',
-        products: data.product || []
-      });
-
-      if (data._id) {
-        setstartupId(data._id);
+  useEffect(() => {
+    console.log("This is the useEffect that fetches all the investors");
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/investor/getAllInvestors`
+        );
+        const data = response.data;
+        setInvestors(data); // Directly set the data as an array
+      } catch (error) {
+        console.log("Error fetching the investors data", error);
       }
-
-      setTopHalfImage(data.logo);
-      setTeamImage(data.teamImage);
-      
-      //added by
-      if (topHalfImageRef.current) {
-        topHalfImageRef.current.src = data.logo;
-      }
-      if (teamImageRef.current) {
-        teamImageRef.current.src = data.teamImage;
-      }
-
-      console.log('IMAGES: topHalfImage:'+data.logo+'  teamImage: '+data.teamImage)
-      console.log('IMAGES: topHalfImage:'+topHalfImage+'  teamImage: '+teamImage)
-    } catch (error) {
-      console.error('Error fetching startup data:', error);
-    }
-  };
-
-  if (userId) {
+    };
     fetchData();
-  }
-}, [userId, startupId]); // Add startupId here
+  }, []); // Add an empty dependency array to run this effect only once
 
-const handleHomeClick= () =>{
- navigate('/home', {state:{userId}})
-}
+  useEffect(() => {
+    console.log("Hello from useEffect");
+    console.log("useEffect triggered with userId:", userId);
+    console.log("useEffect triggered with startupId:", startupId);
 
+    const fetchData = async () => {
+      console.log("Fetching data for userId:", userId);
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/startup/getStartupByUserId/${userId}`
+        );
+        const data = response.data;
+        console.log("`````````````````````````Fetched data:", data);
 
-const handleImageChange1 = (e, setImage) => {
-  const file = e.target.files[0];
-  if (file) {
-    //const fileUrl = URL.createObjectURL(file);
-      setImage(file); // Store the file itself   URL.createObjectURL(file)
-      
-      // Log details of the file
-      console.log("File details:");
-      console.log("Name:", file.name);
-      console.log("Type:", file.type);
-      console.log("Size:", file.size);
-      console.log("Last Modified:", file.lastModified);
-      console.log("File Object:", file);
-  }
-   console.log("@@@@@@@"+topHalfImage)
-};
+        setFormData({
+          name: data.name || "",
+          founders: data.founders || "",
+          aim: data.aim || "",
+          overview: data.overview || "",
+          businessPlan: data.businessPlan || "",
+          projections: data.projections || "",
+          products: data.product || [],
+          interestedInvestors: data.interestedInvestors || [],
+          summaryOfInvestment: data.summaryOfInvestment || [],
+          user: userId,
+        });
 
-const handleImageChange2 = (e, setImage) => {
-  const file = e.target.files[0];
-  if (file) {
-   // const fileUrl = URL.createObjectURL(file);
-      setImage(file); // Store the file itself   URL.createObjectURL(file)
-      
-      // Log details of the file
-      console.log("File details:");
-      console.log("Name:", file.name);
-      console.log("Type:", file.type);
-      console.log("Size:", file.size);
-      console.log("Last Modified:", file.lastModified);
-      console.log("File Object:", file);
-  }
-   console.log("@@@@@@"+teamImage)
-};
+        if (data._id) {
+          setstartupId(data._id);
+        }
+        setinterestedInvestors(data.interestedInvestors);
+        console.log(
+          "!!!!!!!!!!!!!!!!! interested investors" +
+            formData.interestedInvestors
+        );
+        setTopHalfImage(data.logo);
+        setTeamImage(data.teamImage);
 
-  const startDragTop = (e) => {
-    setIsDraggingTop(true);
-    setOffsetTop({
-      x: e.clientX - e.target.getBoundingClientRect().left,
-      y: e.clientY - e.target.getBoundingClientRect().top,
-    });
+        //added by
+        if (topHalfImageRef.current) {
+          topHalfImageRef.current.src = data.logo;
+        }
+        if (teamImageRef.current) {
+          teamImageRef.current.src = data.teamImage;
+        }
+
+        console.log(
+          "IMAGES: topHalfImage:" + data.logo + "  teamImage: " + data.teamImage
+        );
+        console.log(
+          "IMAGES: topHalfImage:" + topHalfImage + "  teamImage: " + teamImage
+        );
+      } catch (error) {
+        console.error("Error fetching startup data:", error);
+      }
+    };
+
+    if (userId) {
+      fetchData();
+    }
+  }, [userId, startupId]); // Add startupId here
+
+ 
+
+  const handleImageChange1 = async (e, setImage) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+    await handleImageSubmit();
   };
 
-  const onDragTop = (e) => {
-    if (!isDraggingTop) return;
-    setBackgroundPositionTop({
-      x: e.clientX - offsetTop.x,
-      y: e.clientY - offsetTop.y,
-    });
-  };
-
-  const endDragTop = () => {
-    setIsDraggingTop(false);
-  };
-
-  const startDragTeam = (e) => {
-    setIsDraggingTeam(true);
-    setOffsetTeam({
-      x: e.clientX - e.target.getBoundingClientRect().left,
-      y: e.clientY - e.target.getBoundingClientRect().top,
-    });
-  };
-
-  const onDragTeam = (e) => {
-    if (!isDraggingTeam) return;
-    setBackgroundPositionTeam({
-      x: e.clientX - offsetTeam.x,
-      y: e.clientY - offsetTeam.y,
-    });
-  };
-
-  const endDragTeam = () => {
-    setIsDraggingTeam(false);
-  };
-
-  const resizeImage = (setResize) => {
-    setResize((prevSize) => prevSize + 10);
+  const handleImageChange2 = async (e, setImage) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+    await handleImageSubmit();
   };
 
   // ------------------------------------------ FORM LOGIC IMPLEMENTED HERE --------------------------------------------------------------
   const [showForm1, setShowForm1] = useState(false);
-  
+
   const [formData, setFormData] = useState({
-    name: '',
-    founders: '',
-    aim: '',
-    overview: '',
-    businessPlan: '',
-    projections: '',
+    name: "",
+    founders: "",
+    aim: "",
+    overview: "",
+    businessPlan: "",
+    projections: "",
     products: [
       {
-        productname: '',
-        information: '',
-        teammembers: [
-          { teammembername: '', qualification: '', role: '' }
-        ]
-      }
-    ]
+        productname: "",
+        information: "",
+        teammembers: [{ teammembername: "", qualification: "", role: "" }],
+      },
+    ],
+    interestedInvestors: [],
+    summaryOfInvestment: [],
   });
-  
 
-  const handleInputChange = useCallback((e, productIndex = null, teamMemberIndex = null) => {
-    const { name, value } = e.target;
+  const handleInputChange = useCallback(
+    (e, productIndex = null, teamMemberIndex = null) => {
+      const { name, value } = e.target;
 
-    if (productIndex !== null && teamMemberIndex !== null) {
-      setFormData(prevFormData => {
-        const updatedProducts = [...prevFormData.products];
-        updatedProducts[productIndex].teammembers[teamMemberIndex][name] = value;
-        return { ...prevFormData, products: updatedProducts };
-      });
-    } else if (productIndex !== null) {
-      setFormData(prevFormData => {
-        const updatedProducts = [...prevFormData.products];
-        updatedProducts[productIndex][name] = value;
-        return { ...prevFormData, products: updatedProducts };
-      });
-    } else {
-      setFormData(prevFormData => ({
-        ...prevFormData,
-        [name]: value
-      }));
-    }
-  }, []);
+      if (productIndex !== null && teamMemberIndex !== null) {
+        setFormData((prevFormData) => {
+          const updatedProducts = [...prevFormData.products];
+          updatedProducts[productIndex].teammembers[teamMemberIndex][name] =
+            value;
+          return { ...prevFormData, products: updatedProducts };
+        });
+      } else if (productIndex !== null) {
+        setFormData((prevFormData) => {
+          const updatedProducts = [...prevFormData.products];
+          updatedProducts[productIndex][name] = value;
+          return { ...prevFormData, products: updatedProducts };
+        });
+      } else {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: value,
+        }));
+      }
+    },
+    []
+  );
 
   const addProduct = () => {
-    setFormData(prevFormData => ({
+    setFormData((prevFormData) => ({
       ...prevFormData,
       products: [
         ...prevFormData.products,
-        { productname: '', information: '', teammembers: [{ teammembername: '', qualification: '', role: '' }] }
-      ]
+        {
+          productname: "",
+          information: "",
+          teammembers: [{ teammembername: "", qualification: "", role: "" }],
+        },
+      ],
     }));
   };
 
   const addTeamMember = (index) => {
-    setFormData(prevFormData => {
+    setFormData((prevFormData) => {
       const updatedProducts = [...prevFormData.products];
-      updatedProducts[index].teammembers.push({ teammembername: '', qualification: '', role: '' });
+      updatedProducts[index].teammembers.push({
+        teammembername: "",
+        qualification: "",
+        role: "",
+      });
       return { ...prevFormData, products: updatedProducts };
     });
   };
- 
+
   const deleteProduct = (index) => {
-    setFormData(prevFormData => {
+    setFormData((prevFormData) => {
       const updatedProducts = [...prevFormData.products];
       updatedProducts.splice(index, 1);
       return { ...prevFormData, products: updatedProducts };
@@ -255,355 +214,712 @@ const handleImageChange2 = (e, setImage) => {
   };
 
   const deleteTeamMember = (productIndex, teamMemberIndex) => {
-    
-    setFormData(prevFormData => {
+    setFormData((prevFormData) => {
       const updatedProducts = [...prevFormData.products];
       updatedProducts[productIndex].teammembers.splice(teamMemberIndex, 1);
       return { ...prevFormData, products: updatedProducts };
     });
   };
-  
-  
 
+  const deleteStartup1 = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:3000/startup/deleteStartupByUserId/${userId}`
+      );
+      {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Startup Deleted!",
+          icon: "success",
+        });
+      }
+    } catch (error) {
+      console.log("there was an error in deleting the startup");
+      console.log("Error in deleting the startup:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong while deleting the Startup. Please try again!",
+      });
+    }
+  };
+
+  const handleRemoveInvestor = (index) => {
+    // Create a copy of the current summaryOfInvestment array
+    const updatedInvestments = [...formData.summaryOfInvestment];
+
+    // Remove the investor at the specified index
+    updatedInvestments.splice(index, 1);
+
+    // Update the formData with the new array
+    setFormData({ ...formData, summaryOfInvestment: updatedInvestments });
+  };
+
+  const handleInvestorChange = (e) => {
+    const value = e.target.value;
+    setSelectedInvestor(value);
+  };
+
+  const handleAddInvestor = () => {
+    console.log("Current summaryOfInvestment:", formData.summaryOfInvestment);
+
+    if (
+      selectedInvestor &&
+      !formData.summaryOfInvestment.some(
+        (item) => item.investorId === selectedInvestor
+      )
+    ) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        summaryOfInvestment: [
+          ...prevFormData.summaryOfInvestment,
+          { investorId: selectedInvestor },
+        ],
+      }));
+      setSelectedInvestor(""); // Reset selectedInvestor
+    }
+  };
+
+  const handleInterestedInvestorsChanged = (investorId) => {
+    setinterestedInvestors((prev = []) => {
+      const updatedInvestors = prev.map((investor) => {
+        if (investor.investorId === investorId) {
+          return { ...investor, status: "Contacted" };
+        }
+        return investor; // Corrected from 'startup' to 'investor'
+      });
+
+      if (
+        !updatedInvestors.find((investor) => investor.investorId === investorId)
+      ) {
+        updatedInvestors.push({ _id: investorId, status: "Contacted" });
+      }
+
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        interestedInvestors: updatedInvestors,
+      }));
+      console.log("updated investors: " + updatedInvestors);
+      return updatedInvestors;
+    });
+  };
+
+  const updateInterestedInvestors = async () => {
+    const payload = {
+      name: formData.name,
+      founders: formData.founders,
+      aim: formData.aim,
+      overview: formData.overview,
+      businessPlan: formData.businessPlan,
+      projections: formData.projections,
+      product: formData.products,
+      user: userId,
+      interestedInvestors: formData.interestedInvestors,
+      summaryOfInvestment: formData.summaryOfInvestment,
+    };
+    try {
+      let response;
+      response = await axios.put(
+        `http://localhost:3000/startup/updateStartup/${startupId}`,
+        payload
+      );
+      console.log("Startup updated successfully", response.data);
+      Swal.fire({
+        title: "Good job 🥳!",
+        text: "Contact List Updated!",
+        icon: "success",
+      });
+    } catch (error) {
+      console.error("Error updating startup:", error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('Form Data:', formData);
-    console.log('Top Half Image:', topHalfImage);
-    console.log('Team Image:', teamImage);
-    console.log('Products:', formData.products);
-    console.log('Startup ID:', startupId);
+    console.log("Form Data:", formData);
+    console.log("Top Half Image:", topHalfImage);
+    console.log("Team Image:", teamImage);
+    console.log("Products:", formData.products);
+    console.log("Startup ID:", startupId);
 
     // Step 1: Prepare payload
     const payload = {
-        name: formData.name, 
-        founders: formData.founders, 
-        aim: formData.aim, 
-        overview: formData.overview, 
-        businessPlan: formData.businessPlan, 
-        projections: formData.projections, 
-        product: formData.products, 
-        user: userId
+      name: formData.name,
+      founders: formData.founders,
+      aim: formData.aim,
+      overview: formData.overview,
+      businessPlan: formData.businessPlan,
+      projections: formData.projections,
+      product: formData.products,
+      user: userId,
+      interestedInvestors: formData.interestedInvestors,
+      summaryOfInvestment: formData.summaryOfInvestment,
     };
 
     try {
-        let response;
-        if (startupId) {
-          console.log("***************You are in the hdnle submit function of topHlafImage || teamImage*************"+topHalfImageRef.current.src+"******"+teamImageRef.current.src)
-          console.log("***************You are in the hdnle submit function of topHlafImage || teamImage*************"+topHalfImage+"******"+teamImage)
-            console.log("Updating existing startup with ID:", startupId);
-            response = await axios.put(`http://localhost:3000/startup/updateStartup/${startupId}`, payload);
-            
-          
-        } else {
-            console.log("Registering new startup");
-            response = await axios.post('http://localhost:3000/startup/registerStartup', payload);
-            setstartupId(response.data._id); // Save the ID of the newly created startup
-         
-        }
-        if(topHalfImage || teamImage)
-          { 
-            console.log("***************You are in the hdnle submit function of topHlafImage || teamImage*************")
-            await handleImageSubmit()
-          }
+      let response;
+      if (startupId) {
+        response = await axios.put(
+          `http://localhost:3000/startup/updateStartup/${startupId}`,
+          payload
+        );
+      } else {
+        console.log("Registering new startup");
+        response = await axios.post(
+          "http://localhost:3000/startup/registerStartup",
+          payload
+        );
+        setstartupId(response.data._id); // Save the ID of the newly created startup
+      }
+      if (topHalfImage || teamImage) {
+        await handleImageSubmit();
+      }
 
-        console.log('Response:', response.data);
-        // Handle successful response (e.g., show a success message, redirect to another page, etc.)
-        alert('Form submitted successfully!');
-      
+      console.log("Response:", response.data);
+      {
+        Swal.fire({
+          title: "Great 🥳!",
+          text: "Startup Information Updated Successfully!",
+          icon: "success",
+        });
+      }
     } catch (error) {
-        console.error('There was an error submitting the startup:', error.response || error.message || error);
-        // Handle error (e.g., show an error message)
+      console.error(
+        "There was an error submitting the startup:",
+        error.response || error.message || error
+      );
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong while submitting the form. Please re-check the startup form details added and try again!",
+      });
     }
-    alert('There was an error submitting the form. Please try again.');
-};
-
-
-
+  };
 
   const handleImageSubmit = async () => {
     const formDataToSend = new FormData();
-    if (topHalfImage) formDataToSend.append('logo', topHalfImage);
-    if (teamImage) formDataToSend.append('teamImage', teamImage);
-    
+
+    if (topHalfImage) formDataToSend.append("logo", topHalfImage);
+    if (teamImage) formDataToSend.append("teamImage", teamImage);
+
     try {
       await axios.put(
-        `http://localhost:3000/startup/updateStartupImageId/${startupId}`, 
-        formDataToSend, 
-        { headers: { 'Content-Type': 'multipart/form-data' } }
+        `http://localhost:3000/startup/updateStartupImageId/${startupId}`,
+        formDataToSend,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
-      console.log('Images uploaded successfully');
+      console.log("Images uploaded successfully");
+      {
+        Swal.fire({
+          title: "Great 🥳!",
+          text: "Image uploaded successfully. To save the images please click on the submit button in the startup form!",
+          icon: "success",
+        });
+      }
     } catch (error) {
-      console.error('Error uploading images:', error);
+      console.error("Error uploading images:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong while submitting uploading the image. Please try again!",
+      });
     }
   };
-  
-  
-  
-  const handleOnClick = () => { setShowForm1(true) }
-  const closeForm=()=>{setShowForm1(false)}
-  
-  const handleOnClickViewDetails = () => {
+
+  const handleOnClick = () => {
+    setShowForm1(true);
+  };
+  const closeForm = () => {
+    setShowForm1(false);
+  };
+
+  const handleOnClickViewStartupDetails = () => {
+    console.log("you are in handleOnClickViewStartupDetails function");
     setShowDetails(true);
   };
 
-  const handleMoreClick = () => {
-    setShowMoreBar(!showMoreBar); // Toggle the bar visibility
-  };
-
-
   const handleViewProfile = () => {
-    navigate('/StartupUserProfile', { state: { userId } }); // Navigate to profile page
+    navigate("/StartupUserProfile", { state: { userId } }); // Navigate to profile page
   };
 
-   
+  const handleNavigateInvestor = (id) => {
+    navigate("/investorPage", { state: { id , userId} });
+  };
+
   const closeDetails = () => {
     setShowDetails(false);
   };
 
-  
-  
   return (
-    <div className='generalProfile_container'>
-      <div className="search-bar">
-        <div className="icons">
-          <img className="homeIcon" src={home} alt="Home" onClick={handleHomeClick}/>
-          <img src={more} alt="More" onClick={() => handleMoreClick()} />
-        </div>
-      </div>
+    <div className="startupUserProfile_container">
+      <Navbar userId={userId} check={"Startup Profile"} />
+
       <div className="container">
         <div className="row">
           <div className="profile">
-            <div
-              src={topHalfImage}
-              ref={topHalfImageRef}
-              className="top-half"
-              style={{
-                backgroundImage: topHalfImage ? `url(${topHalfImage})` : 'none',
-                backgroundSize: `${imageResize}%`,
-                backgroundPosition: `${backgroundPositionTop.x}px ${backgroundPositionTop.y}px`,
-                backgroundRepeat: 'no-repeat'
-              }}
-              onMouseDown={startDragTop}
-              onMouseMove={onDragTop}
-              onMouseUp={endDragTop}
-              onMouseLeave={endDragTop}
-            >
-              <input type='file' id='imageUpload' style={{ display: 'none' }} onChange={(e) => handleImageChange1(e, setTopHalfImage)} />
-              <img className="camera" src={camera} alt="Profile Picture" onClick={() => document.getElementById('imageUpload').click()} />
-              <img className='resize' src={resize} alt='Resize' width='20' onClick={() => resizeImage(setImageResize)} />
-              <img className="edit-icon2" src={edit} alt="Edit" width="20" />
-            </div>
-            <div className="bottom-half">
-              <div className="details">
-                <div className="row">
-                  <p><span className="label">From:</span> <span className="value">Pakistan</span></p>
-                </div>
-                <div className="row">
-                  <p><span className="label">Joined at:</span></p>
-                  <p><span className="date">Date</span></p>
-                </div>
-              </div>
+            <div className="top-half">
+              <input
+                type="file"
+                id="imageUpload"
+                style={{ display: "none" }}
+                onChange={(e) => handleImageChange1(e, setTopHalfImage)}
+              />
+              <img
+                className="camera"
+                src={camera}
+                alt="Profile Picture"
+                onClick={() => document.getElementById("imageUpload").click()}
+              />
+
+              <div className="camera-text">Logo</div>
+              {
+                <img
+                  src={
+                    topHalfImage ? `http://localhost:3000/${topHalfImage}` : ""
+                  }
+                  style={{
+                    width: "100%", // Make the image fill the width of its container
+                    height: "100%", // Make the image fill the height of its container
+                    objectFit: "cover", // Ensure the image covers the container without distortion
+                    display: "block", // Remove any unwanted gaps below the image
+                  }}
+                />
+              }
             </div>
           </div>
-          <div className="teamImage"
-            src={teamImage}
-            ref={teamImageRef}
-            style={{
-              backgroundImage: teamImage ? `url(${teamImage})` : 'none',
-              backgroundSize: `${teamImageResize}%`,
-              backgroundPosition: `${backgroundPositionTeam.x}px ${backgroundPositionTeam.y}px`,
-              backgroundRepeat: 'no-repeat'
-            }}
-            onMouseDown={startDragTeam}
-            onMouseMove={onDragTeam}
-            onMouseUp={endDragTeam}
-            onMouseLeave={endDragTeam}
-          >
-            <input type='file' id='teamImageUpload' style={{ display: 'none' }} onChange={(e) => handleImageChange2(e, setTeamImage)} />
-            <img className="camera" src={camera} alt="Team Picture" onClick={() => document.getElementById('teamImageUpload').click()} />
-            <img className='resize' src={resize} alt='Resize' width='20' onClick={() => resizeImage(setTeamImageResize)} />
-            <img className="edit-icon2" src={edit} alt="Edit" width="20" />
+          <div className="teamImage">
+            <input
+              type="file"
+              id="teamImageUpload"
+              style={{ display: "none" }}
+              onChange={(e) => handleImageChange2(e, setTeamImage)}
+            />
+            <img
+              className="camera"
+              src={camera}
+              alt="Team Picture"
+              onClick={() => document.getElementById("teamImageUpload").click()}
+            />
+            <div className="camera-text">Team Image</div>
+            <img
+              src={teamImage ? `http://localhost:3000/${teamImage}` : ""}
+              alt="Team Image"
+              style={{
+                width: "100%", // Make the image fill the width of its container
+                height: "100%", // Make the image fill the height of its container
+                objectFit: "cover", // Ensure the image covers the container without distortion
+                display: "block", // Remove any unwanted gaps below the image
+              }}
+            />
           </div>
         </div>
         <div className="row">
           <div className="actions">
             <button className="linkDescription-item" onClick={handleOnClick}>
-              <div className="image"><img src={startup} alt="Startup" width="20" /></div>
+              <div className="image">
+                <img src={startup} alt="Startup" width="20" />
+              </div>
               <span>Add/Edit Your Startup Details</span>
             </button>
-            <button className="linkDescription-item" onClick={handleOnClickViewDetails}>
-              <div className="image"><img src={startup} alt="Startup" width="20" /></div>
+            <button
+              className="linkDescription-item"
+              onClick={handleOnClickViewStartupDetails}
+            >
+              <div className="image">
+                <img src={startup} alt="Startup" width="20" />
+              </div>
               <span>View your Startup Details</span>
             </button>
           </div>
         </div>
       </div>
-      {
-        showForm1 &&
-        (
-          <div className={`formContainer1 ${showForm1 ? 'active' : ''}`}>
-            <form onSubmit={handleSubmit} className='startup-form'>
-              <h2>Fill up the Start up Information</h2>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="Name"
-                required
-              />
-              <input
-                type="text"
-                name="founders"
-                value={formData.founders}
-                onChange={handleInputChange}
-                placeholder="Founders"
-                required
-              />
-              <input
-                type="text"
-                name="aim"
-                value={formData.aim}
-                onChange={handleInputChange}
-                placeholder="Aim"
-                required
-              />
-              <input
-                type="text"
-                name="overview"
-                value={formData.overview}
-                onChange={handleInputChange}
-                placeholder="Overview"
-                required
-              />
-              <input
-                type="text"
-                name="businessPlan"
-                value={formData.businessPlan}
-                onChange={handleInputChange}
-                placeholder="Business Plan"
-                required
-              />
-              <input
-                type="text"
-                name="projections"
-                value={formData.projections}
-                onChange={handleInputChange}
-                placeholder="Projections"
-                required
-              />
-               {formData.products.map((product, productIndex) => (
-                <div key={productIndex} className="product-section">
-                  <h3>Product</h3>
-                  <input
-                    type="text"
-                    name="productname"
-                    value={product.productname}
-                    onChange={(e) => handleInputChange(e, productIndex)}
-                    placeholder="Name of your product"
-                    required
-                  />
-                  <input
-                    type="text"
-                    name="information"
-                    value={product.information}
-                    onChange={(e) => handleInputChange(e, productIndex)}
-                    placeholder="Product information"
-                    required
-                  />
-                  {product.teammembers.map((teammember, teammemberIndex) => (
-                    <div key={teammemberIndex} className="teammember-section">
-                      <input
-                        type="text"
-                        name="teammembername"
-                        value={teammember.teammembername}
-                        onChange={(e) => handleInputChange(e, productIndex, teammemberIndex)}
-                        placeholder="Name of the team member"
-                        required
-                      />
-                      <input
-                        type="text"
-                        name="qualification"
-                        value={teammember.qualification}
-                        onChange={(e) => handleInputChange(e, productIndex, teammemberIndex)}
-                        placeholder="Qualification of the team member"
-                        required
-                      />
-                      <input
-                        type="text"
-                        name="role"
-                        value={teammember.role}
-                        onChange={(e) => handleInputChange(e, productIndex, teammemberIndex)}
-                        placeholder="Role of the team member"
-                        required
-                      />
-                      <button type="button" className="deleteTeamMember" onClick={() => deleteTeamMember(productIndex, teammemberIndex)}>Delete Team Member</button>
-                    </div>
-                  ))}
-                  <button type="button" className="addTeamMember" onClick={() => addTeamMember(productIndex)}>Add Team Member</button>
-                  <button type="button" className="deleteProduct" onClick={() => deleteProduct(productIndex)}>Delete Product</button>
-                </div>
+      {showForm1 && (
+        <div className={`formContainer1 ${showForm1 ? "active" : ""}`}>
+          <form onSubmit={handleSubmit} className="startup-form">
+            <h2>Fill up the Start up Information</h2>
+            <label style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}>
+              Startup Name:
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              placeholder="Name"
+              required
+            />
+            <label style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}>
+              Founders of Startup:
+            </label>
+            <input
+              type="text"
+              name="founders"
+              value={formData.founders}
+              onChange={handleInputChange}
+              placeholder="Founders"
+              required
+            />
+            <label style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}>
+              Aim of Startup:
+            </label>
+            <input
+              type="text"
+              name="aim"
+              value={formData.aim}
+              onChange={handleInputChange}
+              placeholder="Aim"
+              required
+            />
+            <label style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}>
+              Overview of Startup:
+            </label>
+            <input
+              type="text"
+              name="overview"
+              value={formData.overview}
+              onChange={handleInputChange}
+              placeholder="Overview"
+              required
+            />
+            <label style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}>
+              Your Businesss Plan:
+            </label>
+            <input
+              type="text"
+              name="businessPlan"
+              value={formData.businessPlan}
+              onChange={handleInputChange}
+              placeholder="Business Plan"
+              required
+            />
+            <label style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}>
+              Projections:
+            </label>
+            <input
+              type="text"
+              name="projections"
+              value={formData.projections}
+              onChange={handleInputChange}
+              placeholder="Projections"
+              required
+            />
+            <lable>Startup Product:</lable>
+            {formData.products.map((product, productIndex) => (
+              <div key={productIndex} className="product-section">
+                <h3>Product</h3>
+                <label
+                  style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}
+                >
+                  Product name:
+                </label>
+                <input
+                  type="text"
+                  name="productname"
+                  value={product.productname}
+                  onChange={(e) => handleInputChange(e, productIndex)}
+                  placeholder="Name of your product"
+                  required
+                />
+                <label
+                  style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}
+                >
+                  Product Information:
+                </label>
+                <input
+                  type="text"
+                  name="information"
+                  value={product.information}
+                  onChange={(e) => handleInputChange(e, productIndex)}
+                  placeholder="Product information"
+                  required
+                />
+                <label>Product TeamMembers:</label>
+                {product.teammembers.map((teammember, teammemberIndex) => (
+                  <div key={teammemberIndex} className="teammember-section">
+                    <label
+                      style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}
+                    >
+                      TeamMember name:
+                    </label>
+                    <input
+                      type="text"
+                      name="teammembername"
+                      value={teammember.teammembername}
+                      onChange={(e) =>
+                        handleInputChange(e, productIndex, teammemberIndex)
+                      }
+                      placeholder="Name of the team member"
+                      required
+                    />
+                    <label
+                      style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}
+                    >
+                      TeamMember Qualification:
+                    </label>
+                    <input
+                      type="text"
+                      name="qualification"
+                      value={teammember.qualification}
+                      onChange={(e) =>
+                        handleInputChange(e, productIndex, teammemberIndex)
+                      }
+                      placeholder="Qualification of the team member"
+                      required
+                    />
+                    <label
+                      style={{ color: "rgb(234, 200, 47)", fontSize: "1.1em" }}
+                    >
+                      TeamMember role:
+                    </label>
+                    <input
+                      type="text"
+                      name="role"
+                      value={teammember.role}
+                      onChange={(e) =>
+                        handleInputChange(e, productIndex, teammemberIndex)
+                      }
+                      placeholder="Role of the team member"
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="deleteTeamMember"
+                      onClick={() =>
+                        deleteTeamMember(productIndex, teammemberIndex)
+                      }
+                    >
+                      Delete Team Member
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="addTeamMember"
+                  onClick={() => addTeamMember(productIndex)}
+                >
+                  Add Team Member
+                </button>
+                <button
+                  type="button"
+                  className="deleteProduct"
+                  onClick={() => deleteProduct(productIndex)}
+                >
+                  Delete Product
+                </button>
+              </div>
+            ))}
+            <button
+              className="productButton"
+              type="button"
+              onClick={addProduct}
+            >
+              Add Product
+            </button>
+            <select
+              name="summaryOfInvestment"
+              value={selectedInvestor}
+              onChange={handleInvestorChange}
+            >
+              <option value="" disabled>
+                Select the Investors who have invested in your Startup so far
+              </option>
+              {investors.map((investor, index) => (
+                <option key={index} value={investor._id}>
+                  {investor.investorName}
+                </option>
               ))}
-              <button className="productButton" type="button" onClick={addProduct}>Add Product</button>
-              <button type="submit">Submit</button>
-              <button type="close" onClick={closeForm}>Close</button>
-            </form>
-          </div>
-        )
-      }
-           {showDetails && (
+            </select>
+            <button
+              type="button"
+              className="productButton"
+              onClick={handleAddInvestor}
+            >
+              Add Investor
+            </button>
+
+            <div>
+              {formData.summaryOfInvestment.length > 0 && (
+                <div>
+                  <h4>Selected Investors:</h4>
+                  <ul>
+                    {formData.summaryOfInvestment.map((investment, index) => {
+                      // Extract the startup ID from the investment object
+                      const investorId = investment.investorId;
+                      // Find the startup by ID
+                      const investor = investors.find(
+                        (s) => s._id === investorId
+                      );
+
+                      return (
+                        <li key={index}>
+                          <p
+                            onClick={() => handleNavigateInvestor(investor._id)}
+                            style={{ cursor: "pointer", color: "blue" }}
+                          >
+                            {investor
+                              ? investor.investorName
+                              : "Unknown Investor"}
+                          </p>
+                          <button
+                            type="button"
+                            className="removeInvestorButton"
+                            onClick={() => handleRemoveInvestor(index)}
+                          >
+                            Remove
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            <button type="submit">Submit</button>
+            <button type="button" onClick={() => deleteStartup1()}>
+              Delete
+            </button>
+            <button type="close" onClick={closeForm}>
+              Close
+            </button>
+          </form>
+        </div>
+      )}
+      {showDetails && (
         <div className="startup-details">
-          {/* <button className="close-details" onClick={closeDetails}>Close</button> */}
-          <div className="startupDetailsImage"><img src={startup} alt="Startup" width="90" /></div>
+          <div className="startupDetailsImage">
+            <img src={startup} alt="Startup" width="90" />
+          </div>
           <h2>Startup Details</h2>
-          <p><strong>Name:</strong> {formData.name}</p>
-          <p><strong>Founders:</strong> {formData.founders}</p>
-          <p><strong>Aim:</strong> {formData.aim}</p>
-          <p><strong>Overview:</strong> {formData.overview}</p>
-          <p><strong>Business Plan:</strong> {formData.businessPlan}</p>
-          <p><strong>Projections:</strong> {formData.projections}</p>
-          <p>____________________________________________________________________________________________________________________________________________________</p>
+          <p>
+            <strong>Name:</strong> {formData.name}
+          </p>
+          <p>
+            <strong>Founders:</strong> {formData.founders}
+          </p>
+          <p>
+            <strong>Aim:</strong> {formData.aim}
+          </p>
+          <p>
+            <strong>Overview:</strong> {formData.overview}
+          </p>
+          <p>
+            <strong>Business Plan:</strong> {formData.businessPlan}
+          </p>
+          <p>
+            <strong>Projections:</strong> {formData.projections}
+          </p>
+          <p>
+            ____________________________________________________________________________________________________________________________________________________
+          </p>
           {formData.products.map((product, index) => (
-            <div key={index} className='product123'>
+            <div key={index} className="product123">
               <h3 className="producth3">{index + 1}.Product </h3>
-              <p><strong>Product Name:</strong> {product.productname}</p>
-              <p><strong>Information:</strong> {product.information}</p>
+              <p>
+                <strong>Product Name:</strong> {product.productname}
+              </p>
+              <p>
+                <strong>Information:</strong> {product.information}
+              </p>
               <br></br>
               <h4 className="teamMemberh4">Team Members</h4>
               {product.teammembers.map((member, idx) => (
-                <div key={idx} className='teamMembersDiv'>
-                  <p><strong>{idx+1}. Name:</strong> {member.teammembername}</p>
-                  <p><strong>Qualification:</strong> {member.qualification}</p>
-                  <p><strong>Role:</strong> {member.role}</p>
+                <div key={idx} className="teamMembersDiv">
+                  <p>
+                    <strong>{idx + 1}. Name:</strong> {member.teammembername}
+                  </p>
+                  <p>
+                    <strong>Qualification:</strong> {member.qualification}
+                  </p>
+                  <p>
+                    <strong>Role:</strong> {member.role}
+                  </p>
                   <br></br>
                 </div>
               ))}
-              <p>____________________________________________________________________________________________________________________________________________________</p>
+              <p>
+                ____________________________________________________________________________________________________________________________________________________
+              </p>
             </div>
-          ))
-          
-          }
-          <button className="close-details" onClick={closeDetails}>Close</button>
+          ))}
+          <label>Investors who have invested in your Startup so far:</label>
+
+          <ul>
+            {formData.summaryOfInvestment.map((investor, index) => {
+              const investorId = investor.investorId;
+              const investor1 = investors.find((i) => i._id == investorId);
+              return (
+                <li key={index}>
+                  <p
+                    //onClick={handleNavigateInvestor(investorId)}
+                    onClick={() => handleNavigateInvestor(investor1._id)}
+                    style={{ cursor: "pointer", color: "blue" }}
+                  >
+                    {investor1 ? investor1.investorName : "Unkown Investor"}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+          <label>Investors that have reached out to your Startup:</label>
+          <ul>
+            {formData.interestedInvestors.map((investment, index) => {
+              // Log the investment object for debugging
+              console.log("Investment at index", index, ":", investment);
+
+              const investmentId = investment.investorId;
+              console.log("::::::" + investmentId);
+
+              // Find the investor by matching IDs
+              const investor = investors.find((s) => s._id == investmentId);
+
+              if (!investor) {
+                console.warn(`Investor not found for ID: ${investmentId}`);
+              }
+
+              return (
+                <li key={index}>
+                  <p
+                    onClick={() => handleNavigateInvestor(investmentId)}
+                    style={{ cursor: "pointer", color: "blue" }}
+                  >
+                    Investor Name:{" "}
+                    {investor ? investor.investorName : "Unknown Investor"}
+                  </p>
+                  <p>
+                    {"Status of your interest: " +
+                      (investment.status || "Unknown Status")}
+                  </p>
+                  <input
+                    type="checkbox"
+                    onChange={() => {
+                      handleInterestedInvestorsChanged(investmentId);
+                    }}
+                  />
+                  <label>Contacted</label>
+                </li>
+              );
+            })}
+          </ul>
+
+          <button onClick={updateInterestedInvestors}>Submit</button>
+
+          <button className="close-details" onClick={closeDetails}>
+            Close
+          </button>
         </div>
-        
       )}
-         
-         {showMoreBar && (
-          <div className="moreBar">
-              <div className="moreBarContent">
-                 <img src={profile} alt="Profile" />
-                  <button onClick={handleViewProfile}>Profile</button>
-               </div>
-            {/* Add more options here if needed */}
-            </div>
-         )}
+
+      {showMoreBar && (
+        <div className="moreBar">
+          <div className="moreBarContent">
+            <button onClick={handleViewProfile}>Profile</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default StartupUserProfile;
-
-
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=============================================================================

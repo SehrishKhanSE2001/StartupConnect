@@ -1,4 +1,5 @@
 /* navbar.css */
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Mochiy+Pop+One&family=Poiret+One&family=Sacramento&display=swap'); 
 .navbar {
     display: flex;
     align-items: center;
@@ -6,21 +7,130 @@
     background-color: #f9d03c;
     padding: 10px 20px;
     width: 100%;
+    height:7%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed; /* Keeps the navbar fixed at the top */
     top: 0;
     left: 0;
     z-index: 1000; /* Keeps the navbar above other elements */
   }
-  
-  .backimage{
-    width: 24px; /* Adjust the size of the icon */
-    height: 24px;
-    cursor: pointer; /* Change cursor to pointer for better UX */
-    margin-right:30px;
-    transition: transform 0.3s ease
+  .centered-title {
+    font-size: 24px; /* Larger font for impact */
+    font-weight: 700; /* Bolder weight for emphasis */
+    color:black; /* Light text color for contrast */
+    letter-spacing: 1.5px; /* Spaced out letters for a modern feel */
+    text-transform: uppercase; /* Uppercase for a bold statement */
+    text-align: center;
+    margin-right:300px;
+    font-family: "Poiret One", sans-serif;
+  }
+
+  .iconsContainer {
+    display: flex; /* Align items in a row */
+    align-items: center;
+    gap: 20px; /* Space between icon-label pairs */
+    margin-right:50px;
+    margin-top:20px;
+}
+
+.iconsContainer div {
+    display: flex;
+    flex-direction: column; /* Stack image and label vertically */
+    align-items: center; /* Center-align the image and label */
+}
+
+.iconsimage {
+    width: 30px; 
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.iconsimage:hover {
+    transform: scale(1.09);
+}
+
+.iconsContainer label {
+    margin-top: 5px; /* Space between the image and the label */
+    font-size: 14px; /* Adjust font size as needed */
+    color: black; /* Color for the label text */
+    text-align: center; /* Center-align the label text */
+}
+
+
+
+  .moreBar-navbar {
+    background-color: white;
+    padding: 10px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 8px;
+    width: 150px; /* Adjust width as needed */
+    position: absolute; /* Absolute positioning */
+    top: 60px; /* Adjust top position as needed */
+    right: 45px; /* Adjust right position as needed */
+    z-index: 1000; /* Ensure it is on top of other content */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+  }
+  .moreBar-navbar::before {
+    content: '';
+    position: absolute;
+    bottom: 100%; /* Position the arrow above the moreBar */
+    left: 75%; /* Center the arrow horizontally relative to the moreBar */
+    transform: translateX(-50%); /* Center the arrow */
+    width: 0;
+    height: 0;
+    border-width: 0 10px 10px 10px; /* Size of the arrow */
+    border-style: solid;
+    border-color: transparent transparent #fff transparent; /* Arrow color and direction */
   }
   
-  .backimage:hover{
-    transform:scale(1.09)
+  .moreBar-navbar .b {
+    background-color: black; /* Black background for buttons */
+    color: white; /* White text color for buttons */
+    border: none; /* Remove default border */
+    padding: 10px; /* Add padding inside buttons */
+    width: 100%; /* Make buttons take full width of the moreBar */
+    text-align: center; /* Center text inside buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Optional rounded corners for buttons */
+    font-size: 16px; /* Font size for buttons */
+  }
+ 
+  .admin-greeting {
+    /* Styling for admin greeting */
+  }
+  
+  .centered-title {
+    /* Styling for centered title */
+    flex-grow: 1; /* Allows the title to take up remaining space */
+    text-align: center; /* Center the title text */
+    margin-left:400px;
+  }
+  
+  .logout-button {
+    /* Styling for logout button */
+    margin-right:30px;
+  }
+  @media (max-width: 768px) {
+   
+    .centered-title {
+      margin: 10px 0; /* Add vertical spacing on small screens */
+    }
+    
+    .logout-button {
+      margin: 10px 0; /* Add vertical spacing on small screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .admin-header {
+      padding: 0 1%; /* Reduce padding on very small screens */
+    }
+    
+    .logout-button {
+      margin-right: 1%; /* Adjust margin for very small screens */
+    }
   }

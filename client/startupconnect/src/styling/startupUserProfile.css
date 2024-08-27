@@ -19,6 +19,7 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100vh; /* Full viewport height */
+    
     display: flex;
     flex-direction: column; /* Align items vertically */
 }
@@ -28,6 +29,7 @@ html, body {
     flex-direction: column;
     gap: 20px; /* Responsive spacing */
     padding: 20px;
+    margin-top:70px;
     flex: 1; /* Allow container to take up remaining space */
 }
 
@@ -126,7 +128,6 @@ html, body {
     opacity: 0.7;
 }
 
-/* Adjust camera image positions */
 .profile img.camera {
     width: 30px;
     height: 30px;
@@ -191,6 +192,7 @@ html, body {
     align-items: center;
     gap: 10px;
     padding: 10px;
+    width:400px;
     background-color: #ffcc00;
     border-radius: 5px;
     border: 2px solid #dbb713;
@@ -206,7 +208,6 @@ html, body {
     max-height: 20px;
 }
 
-/* Media queries for responsiveness */
 @media (max-width: 768px) {
     .profile, .teamImage {
         height: auto; /* Allow height to adjust based on content */
@@ -294,8 +295,18 @@ html, body {
 .camera:hover {
     opacity: 0.7;
 }
+.camera-text {
+    position: absolute;
+    top: 56%; /* Center text vertically */
+    left: 50%; /* Center text horizontally */
+    transform: translate(-50%, -50%); /* Adjust positioning to center text */
+    color: white; /* Text color */
+    font-size: 18px; /* Font size */
+    font-weight: bold; /* Text boldness */
+    text-shadow: 1px 1px 2px black; /* Optional: add shadow for better readability */
+    pointer-events: none; /* Ensure clicks pass through to the image */
+  }
 
-/* Media queries for responsiveness */
 @media (max-width: 768px) {
     .profile, .teamImage {
         height: auto; /* Allow height to adjust based on content */
@@ -327,7 +338,11 @@ html, body {
     max-width: 200px;
     margin-left:920px;
 }
-/* Container for the sliding effect */
+.removeInvestorButton{
+    max-width: 200px;
+    margin-left:880px;
+}
+
 .formContainer1 {
     position: fixed; /* Position it relative to the viewport */
     top: 0; /* Start from the top */
@@ -341,15 +356,9 @@ html, body {
     transform: translate(-50%, -100%); /* Initially hide the container */
     
 
-    /* position: fixed;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%); */
 
-    /* height: 60% */
   }
   
-  /* When the form is active (showing) */
   .formContainer1.active {
     transform: translate(-50%, 0); /* Slide down to visible position */
   }
@@ -397,10 +406,6 @@ html, body {
     transition: background 0.3s ease, transform 0.3s ease;
   }
   
-  .startup-form button:hover {
-    background-color: #ffcc00;
-    transform: scale(1.01);
-  }
   
   .product-section {
     margin-bottom: 10px; /* Reduced margin */
@@ -446,20 +451,7 @@ html, body {
     margin-left:320px;
   }
   
-  /* .close-details {
-
-    position: relative;
-    top: 400px;
-    right: -1050px;
-    width:100px;
-    background: #dbb713;
-    border-radius: 5px;
-    color: white;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease; 
-
-  } */
+ 
 
   .close-details {
     position: relative; /* Use relative positioning to place the button */
@@ -483,25 +475,13 @@ html, body {
     font-size: 1.0em;
     font-family: "Poiret One", sans-serif;
   }
-  /* .producth3{
-    margin: 10px 0;
-    font-size: 1.3em;
-    font-weight: 1000;
-    font-family: "Poiret One", sans-serif;
-  }
-  .teamMemberh4{
-    margin: 10px 0;
-    font-size: 1.3em;
-    font-weight: 1000;
-    font-family: "Poiret One", sans-serif;
-    margin-left:200px;
-  } */
+
   .producth3 {
    
     margin: 10px 0;
     font-size: 1.1em;
     font-weight: bold; /* Use 'bold' instead of numeric value */
-    /* font-family: "Poiret One", sans-serif; */
+
     
     text-decoration: underline; 
 }
@@ -510,7 +490,6 @@ html, body {
     margin: 10px 0;
     font-size: 1.1em;
     font-weight: bold; /* Use 'bold' instead of numeric value */
-    /* font-family: "Poiret One", sans-serif; */
     text-decoration: underline; 
 }
 

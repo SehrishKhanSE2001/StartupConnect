@@ -1,0 +1,128 @@
+/* AdminView.css */
+@import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Sacramento&display=swap');
+.admin-container {
+    display: flex;
+}
+
+.side-bar {
+    width: 200px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    /* Adjust this value to move the sidebar down */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.side-bar button {
+    display: block;
+    margin-top: 100px; /* Space between the button and any content above */
+    width:200px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ffcc00; /* Stylish yellow */
+    color: #333; /* Dark text for contrast */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.side-bar button:hover {
+    background-color: #e6b800; /* Darker yellow on hover */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.user-details {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the user-details div */
+}
+
+.user-details > div {
+    width: 100%;
+    max-width: 1200px; /* Adjusted for wider display */
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    align-items: center; /* Center items vertically */
+    gap: 10px; /* Space between elements */
+}
+
+.user-details p {
+    margin: 5px;
+    flex: 1 1 auto; /* Allow flex items to grow and shrink */
+    min-width: 150px; /* Set a minimum width for each item */
+}
+
+.user-details button {
+    margin: 5px;
+    padding: 8px 16px;
+    width:60px;
+    font-size: 11px;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.user-details button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+.form-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width:500px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 95%;
+}
+
+.form-container button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-container button[type="button"] {
+    background-color: #007bff;
+}
+
+.form-container button:hover {
+    opacity: 0.9;
+}
+.userTitle{
+    margin-top:80px;
+    margin-right:100px;
+    font-size: 1.5em;
+    font-family: "Poiret One", sans-serif;
+}

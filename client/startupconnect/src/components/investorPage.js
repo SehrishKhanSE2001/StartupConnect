@@ -1,6 +1,5 @@
-
 import { useLocation } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import "../styling/startupPage.css";
 import axios from "axios";
@@ -10,37 +9,51 @@ import location1 from "../images/location.png";
 import Navbar from "../components/navbar"; // Import Navbar component
 
 export default function StartupPage() {
-  console.log("Hi, you are in Investor Page");
   const location = useLocation();
-  const { id , userId , check } = location.state || {}; // Extract id from location.state
+  const { id, userId } = location.state || {}; // Extract id from location.state
+
+  let [check, setCheck] = useState("");
+
+  // React.useEffect(() => {
+  //   if (location.state) {
+  //     setCheck(location.state.check || "Investor Profile1");
+  //   }
+  // }, [location.state]);
+
+  React.useEffect(() => {
+    if (location.state) {
+      setCheck(location.state.check === "Admin Profile" ? "Admin Profile" : "Investor Profile1");
+    }
+  }, [location.state]);
   
-  
-  console.log("Investor ID:", id);
-  console.log("USER ID MY ASS: "+userId)
 
   const [investorsInfo, setInvestorsInfo] = useState({
     investorName: "",
     logo: null,
     investorType: "",
-    summaryOfInvestment:[],
-    totalInvestmentsMade:0,
-    totalAmountInvested:0,
-    totalReturns:0,
-    startupsApproached:[],
-    recentActivity:'',
-    recieveMessage:null,
-    user:''
+    summaryOfInvestment: [],
+    totalInvestmentsMade: 0,
+    totalAmountInvested: 0,
+    totalReturns: 0,
+    startupsApproached: [],
+    recentActivity: "",
+    recieveMessage: null,
+    user: "",
   });
-  const [startups , setStartups]=useState([
+  const [startups, setStartups] = useState([
     {
-        name:'',
-        founders:'',
-        aim:'',
-        overview:'',
-        businessPlan:'',
-        projections:'',
-        products:[]
-    }
+      name: "",
+      founders: "",
+      aim: "",
+      overview: "",
+      businessPlan: "",
+      projections: "",
+      products: [],
+      logo: null,
+      teamImage: null,
+      interestedInvestors: [],
+      summaryOfInvestment: [],
+    },
   ]);
   const [userId1, setUserId1] = useState(null);
   const [userInfo, setUserInfo] = useState({
@@ -52,35 +65,35 @@ export default function StartupPage() {
     Description: "",
     phonenumber: "",
   });
-  const navigate=useNavigate();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("THIS IS INVESTOR-ID : "+id)
+        console.log("THIS IS INVESTOR-ID : " + id);
         const response = await axios.get(
           `http://localhost:3000/investor/getInvestorById/${id}`
         );
         const data = response.data.foundInvestor;
-        console.log("DATA: "+data)
+        console.log("DATA: " + data);
         console.log("Fetched investor data:", data);
         setUserId1(data.user); // Update userId1 here
 
         setInvestorsInfo({
-            investorName:data.investorName|| '',
-            logo: data.logo||'',
-            investorType: data.investorType || '',
-            summaryOfInvestment: data.summaryOfInvestment || [],
-            totalInvestmentsMade: data.totalInvestmentsMade || 0,
-            totalAmountInvested: data.totalAmountInvested || 0,
-            totalReturns: data.totalReturns || 0,
-            startupsApproached:data.startupsApproached || [],
-            recentActivity: data.recentActivity || '',
-            receiveMessage: data.receiveMessage || '',
-            user: data.userId || ''
+          investorName: data.investorName || "",
+          logo: data.logo || "",
+          investorType: data.investorType || "",
+          summaryOfInvestment: data.summaryOfInvestment || [],
+          totalInvestmentsMade: data.totalInvestmentsMade || 0,
+          totalAmountInvested: data.totalAmountInvested || 0,
+          totalReturns: data.totalReturns || 0,
+          startupsApproached: data.startupsApproached || [],
+          recentActivity: data.recentActivity || "",
+          receiveMessage: data.receiveMessage || "",
+          user: data.userId || "",
         });
         console.log("summaryOfInvestment:", data.summaryOfInvestment);
-
       } catch (err) {
         console.error("Error fetching investor data:", err);
       }
@@ -91,6 +104,30 @@ export default function StartupPage() {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (investorsInfo.summaryOfInvestment.length > 0) {
+      const fetchStartupsData = async () => {
+        try {
+          // Fetch startup data using startupsId
+          const responses = await Promise.all(
+            investorsInfo.summaryOfInvestment.map(async (investment) => {
+              const response = await axios.get(
+                `http://localhost:3000/startup/getStartupId/${investment.startupsId}`
+              );
+              return response.data; // Assuming response.data contains the startup data
+            })
+          );
+
+          // Set startups state with the fetched data
+          setStartups(responses);
+        } catch (error) {
+          console.error("Error fetching startup data:", error);
+        }
+      };
+
+      fetchStartupsData();
+    }
+  }, [investorsInfo]); // Run this effect when investorsInfo changes
 
   useEffect(() => {
     if (userId1) {
@@ -119,21 +156,7 @@ export default function StartupPage() {
     }
   }, [userId1]); // Run this effect when userId1 changes
 
-//   useEffect(() => {
-//     // Set startups when investorsInfo changes
-//     console.log("These are the startups:",startups)
-//     const fecthData=async()=>{
-//     try{
-//         const response = await axios.get(`http://localhost:3000/startup/getStartupId/${investorsInfo.summaryOfInvestment.id}`);
-//     }catch(error)
-//     {
-
-//     }
-//     }
-//     fetchData()
-//   }, [investorsInfo]);
-
-useEffect(() => {
+  useEffect(() => {
     // Check if summaryOfInvestment has startup IDs
     if (investorsInfo.summaryOfInvestment.length > 0) {
       const fetchStartupsData = async () => {
@@ -141,30 +164,49 @@ useEffect(() => {
           // Map over each startup ID and fetch the corresponding data
           const responses = await Promise.all(
             investorsInfo.summaryOfInvestment.map(async (startupId) => {
-              const response = await axios.get(`http://localhost:3000/startup/getStartupId/${startupId}`);
+              const response = await axios.get(
+                `http://localhost:3000/startup/getStartupId/${startupId}`
+              );
               return response.data; // Assuming response.data contains the startup data
             })
           );
-          
+
           // Set the startups state with the fetched data
           setStartups(responses);
         } catch (error) {
           console.error("Error fetching startup data:", error);
         }
       };
-  
+
       fetchStartupsData();
     }
   }, [investorsInfo]); // Run this effect when investorsInfo changes
-  
 
-  const handleStartupClick=(startupId)=>{
-    console.log("-------------"+startupId+"-----------");
-    navigate('/startupPage',{state:{startupId,userId,check,id}})
-  }
+  useEffect(() => {
+    console.log("This is the useEffect that fetches all the startups");
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/startup/getAllStartups`
+        );
+        const data = response.data;
+        setStartups(data); // Directly set the data as an array
+      } catch (error) {
+        console.log("Error fetching the startups data", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleStartupClick = (startupId1) => {
+    navigate("/startupPage", {
+      state: { id: startupId1, userId, investorId: id , check },
+    });
+  };
   return (
     <div className="startupPage-container">
-      <Navbar userId={userId} check={check}/> {/* Include Navbar here */}
+      <Navbar userId={userId} check={check} />{" "}
+      {/* Include Navbar here * Investor Profile1*/}
       <div className="startupImages">
         {investorsInfo.logo && (
           <img
@@ -184,7 +226,6 @@ useEffect(() => {
         <img className="location" src={location1} alt="Location" />
         <h3>{userInfo.location}</h3>
       </div>
-
       <div className="UserDescriptiveInfo">
         <h2 className="info-heading">Investor Information</h2>
         <div className="UserDescriptiveInfo123">
@@ -197,26 +238,26 @@ useEffect(() => {
             <p className="info-detail">{investorsInfo.investorType}</p>
           </div>
           <div className="info-item">
-            <h3 className="info-title">Invested Startups Made up till now:</h3>
+            <h3 className="info-title">
+              Startups the investor has invested in so far:
+            </h3>
             <div className="info-detail">
-            {startups.length > 0 ? (
-  startups.map((startup) => {
-    console.log("Rendering startup with _id:", startup._id); // Log the startup ID
-    return (
-      <div key={startup._id}>
-        <h3
-          className="startup-name"
-          onClick={() => handleStartupClick(startup._id)}
-        >
-          {startup.name}
-        </h3>
-      </div>
-    );
-  })
-) : (
-  <p>No startups invested in yet.</p>
-)}
-
+              {startups.length > 0 ? (
+                startups.map((startup) => {
+                  return (
+                    <div key={startup._id}>
+                      <h3
+                        className="startup-name"
+                        onClick={() => handleStartupClick(startup._id)}
+                      >
+                        {startup.name}
+                      </h3>
+                    </div>
+                  );
+                })
+              ) : (
+                <p>No startups invested in yet.</p>
+              )}
             </div>
           </div>
 
@@ -236,8 +277,45 @@ useEffect(() => {
             <h3 className="info-title">Recent Activity:</h3>
             <p className="info-detail">{investorsInfo.recentActivity}</p>
           </div>
+          <div className="info-item">
+            <p>
+              <strong>Startups the investor has reached out to:</strong>{" "}
+              {investorsInfo.startupsApproached.length}
+              <ul>
+                {investorsInfo.startupsApproached.map((investment, index) => {
+                  console.log("Investment at index", index, ":", investment);
 
-          
+                  const startupId = investment._id?.toString(); // Convert to string if it's not already
+
+                  if (!startupId) {
+                    console.warn(
+                      `Investment at index ${index} does not have a valid startup ID.`
+                    );
+                    return null;
+                  }
+
+                  const startup = startups.find(
+                    (s) => s._id?.toString() === startupId
+                  );
+
+                  return (
+                    <li key={index}>
+                      <p
+                        onClick={() => handleStartupClick(startupId)}
+                        style={{ cursor: "pointer", color: "blue" }}
+                      >
+                        Startup Name:
+                        {startup ? startup.name : "Unknown Startup"}
+                      </p>
+                      {check === "Admin Profile" && (
+                        <p>Status: {investment.status}</p>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </p>
+          </div>
         </div>
       </div>
     </div>

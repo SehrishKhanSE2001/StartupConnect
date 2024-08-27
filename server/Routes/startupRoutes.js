@@ -1,16 +1,4 @@
-// const express = require('express');
-// const router = express.Router();
-// const startupController = require('../Controller/startupController'); // Adjust the path as needed
 
-
-
-// // Route to register a new startup
-// router.get('/getAllStartups', startupController.getAllStartups);
-// router.get('/getStartupByUserId/:userId', startupController.getStartupByUserId);
-// router.post('/registerStartup', startupController.registerStartup);
-// router.put('/updateStartup/:id', startupController.updateStartup);
-
-// module.exports = router;
 
 
 const express = require('express');
@@ -26,6 +14,8 @@ router.get('/getStartupId/:startupId',startupController.getStartupId);
 router.post('/registerStartup', startupController.registerStartup);
 
 router.delete('/deleteStartup/:id', startupController.deleteStartup);
+
+router.delete('/deleteStartupByUserId/:id',startupController.deleteStartupByUserId)
 
 router.delete('/deleteProduct/:startupId/:productId', startupController.deleteProduct);
 

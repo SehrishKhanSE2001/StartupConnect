@@ -17,4 +17,6 @@ router.delete('/deleteInvestor/:id', investorController.deleteInvestor);
 // Route to update the status of an investment
 router.put('/updateInvestor/:id', investorController.uploadFields,investorController.updateInvestor);
 
+router.put('/updateInvestorByUserId/:id',investorController.updateInvestorByUserId)
+
 module.exports = router;

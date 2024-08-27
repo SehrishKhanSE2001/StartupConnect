@@ -4,6 +4,28 @@ const Schema = mongoose.Schema;
 // Import the startup model
 //const Startup = require('../models/Startup'); // Adjust the path as necessary
 
+const startupsApproachedSchema = new mongoose.Schema({
+    startupsId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'startups',
+        required:true
+    },
+    status:{
+        type:String,
+        default:'Pending'
+    },
+    count:{
+       type:Number,
+    }
+    
+})
+const summaryOfInvestmentSchema = new mongoose.Schema({
+    startupsId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'startups',
+        required:true
+    }
+})
 const recieveMessageSchema=new mongoose.Schema({
    startupId:{
     type:mongoose.Schema.Types.ObjectId,
@@ -35,11 +57,7 @@ const investorSchema = new Schema({
         enum: ['Individual', 'Venture Capital Firm', 'Private Equity Firm', 'Corporation', 'Government Agency', 'Crowdfunding', 'Institutional Investor' , ''],
         //required: true
     },
-    summaryOfInvestment: [{
-        type: Schema.Types.ObjectId,
-        ref: 'startups',
-        //required: true
-    }],
+    summaryOfInvestment: [summaryOfInvestmentSchema],
     totalInvestmentsMade: {
         type: Number,
         //required: true
@@ -52,15 +70,7 @@ const investorSchema = new Schema({
         type: Number,
         //required: true
     },
-    startupsApproached:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'startups',
-        status:{
-            type:String,
-            default:'Pending'
-        }
-        //required:true
-    }],
+    startupsApproached:[startupsApproachedSchema],
     recentActivity: {
         type: String,
         //required: true

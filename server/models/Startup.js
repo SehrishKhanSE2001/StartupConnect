@@ -1,46 +1,29 @@
 const mongoose = require('mongoose');
 
-// const executedInvestmentSchema = new mongoose.Schema({
-//     investorId: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: 'investors',
-//         required: true
-//     },
-//     amountPaid: {
-//         type: Number,
-//         required: true
-//     },
-//     returnRecieved:{
-//         type:Number,
-//         required:true
-//     },
-//     status: {
-//         type: String,
-//         enum: ['Pending', 'Approved', 'Rejected'],
-//         default: 'Pending'
-//     }
-// });
-
-const feedbackSchema = new mongoose.Schema({
+const summaryOfInvestmentSchema=new mongoose.Schema({
     investorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'investors',
+        required: true
     },
-    userId:{
+   
+})
+const interestedInvestorSchema = new mongoose.Schema({
+    investorId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'users'
-    },
-    description: {
-        type: String, // Define valid types if needed
+        ref: 'investors',
         required: true
     },
-    starRating: {
+    status: {
+        type: String,
+        default: 'Pending'
+    },
+    count: {
         type: Number,
-        min: 1, // Assuming star rating is between 1 and 5
-        max: 5,
-        required: true
+        default: 1
     }
 });
+
 const teamMemberSchema = new mongoose.Schema({
     teammembername: {
         type: String,
@@ -139,12 +122,11 @@ const startupSchema = new mongoose.Schema({
         required:true,
         default:0
     },
-    feedback: [feedbackSchema], // Use the feedback schema
+   
+    interestedInvestors: [interestedInvestorSchema] ,
+    summaryOfInvestment:[summaryOfInvestmentSchema]
 
-    // executedInvestmentSchema: {
-    //     type: [executedInvestmentSchema],
-    //     default: []
-    // },
+    
     
 });
 

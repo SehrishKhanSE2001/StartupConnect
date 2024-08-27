@@ -1,39 +1,3 @@
-// const express = require('express');
-// require("dotenv").config();
-// const app = express();
-// const mongoose = require('mongoose');
-// const UserModel = require('./models/User');
-
-// // Middleware to parse JSON bodies
-// app.use(express.json());
-
-// const DB = 'mongodb+srv://ProjectCluster:iatID4KAQO1aI2cg@cluster1.uvj0x4n.mongodb.net/StartupConnect_Database?retryWrites=true&w=majority&appName=Cluster1';
-
-// mongoose.connect(DB, {})
-//     .then(() => {
-//         console.log('Connection is successful');
-//     })
-//     .catch((err) => {
-//         console.log('No connection', err);
-//     });
-
-// app.post("/addUser", async (req, res) => {
-//     const user = req.body;
-//     console.log('Received user:', user); // Debugging line
-//     const NewUser = new UserModel(user);
-
-//     try {
-//         const savedUser = await NewUser.save();
-//         res.status(201).json(savedUser);
-//     } catch (error) {
-//         console.error('Error saving user:', error); // Debugging line
-//         res.status(500).json({ error: error.message });
-//     }
-// });
-
-// app.listen(3001, () => {
-//     console.log('Server runs perfectly');
-// });
 
 const express = require("express")
 const cors=require('cors');
@@ -43,6 +7,7 @@ const bodyParser = require('body-parser');
 const userRoutes=require("./Routes/userRoutes")
 const startupRoutes=require("./Routes/startupRoutes");
 const investorRoutes=require("./Routes/investorRoutes");
+const emailRoutes=require("./Routes/emailRoutes")
 
 const path = require('path');
 
@@ -54,6 +19,7 @@ app.use(express.json())
 app.use("/user",userRoutes);
 app.use("/startup",startupRoutes);
 app.use("/investor",investorRoutes);
+app.use("/email",emailRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // added by myslef
 
 const mongoose=require("mongoose")
