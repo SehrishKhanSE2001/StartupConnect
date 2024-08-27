@@ -376,14 +376,14 @@ export default function StartupPage() {
         {startupsInfo.logo && (
           <img
             className="startupPage-logo"
-            src={`http://localhost:3000/${startupsInfo.logo}`}
+            src={`https://startup-connect-backend.vercel.app/${startupsInfo.logo}`}
             alt="Logo"
           />
         )}
         {startupsInfo.teamImage && (
           <img
             className="startupPage-teamImage"
-            src={`http://localhost:3000/${startupsInfo.teamImage}`}
+            src={`https://startup-connect-backend.vercel.app/${startupsInfo.teamImage}`}
             alt="Team"
           />
         )}
