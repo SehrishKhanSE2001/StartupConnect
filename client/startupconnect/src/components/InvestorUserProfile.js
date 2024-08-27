@@ -196,18 +196,74 @@ const InvestorUserProfile = () => {
     logoInput.click();
   };
 
+  // const handleLogoChange = async (e) => {
+  //   const file = e.target.files[0];
+  //   console.log("this is e.target.files[0] : " + file);
+  //   if (file) {
+  //     const confirmed = window.confirm(
+  //       "Are you sure you want to add this logo?"
+  //     );
+  //     if (confirmed) {
+  //       const formData = new FormData();
+  //       formData.append("logo", file);
+  //       formData.append("user", userId);
+
+  //       try {
+  //         let response;
+  //         if (investorId) {
+  //           response = await axios.put(
+  //             `https://startup-connect-backend.vercel.app/investor/updateInvestor/${investorId}`,
+  //             formData,
+  //             {
+  //               headers: {
+  //                 "Content-Type": "multipart/form-data",
+  //               },
+  //             }
+  //           );
+  //         } else {
+  //           response = await axios.post(
+  //             "https://startup-connect-backend.vercel.app/investor/addInvestor",
+  //             formData
+  //           );
+
+  //           // Save the ID of the newly created investor
+  //           setInvestorId(response.data._id);
+  //         }
+
+  //         // Update the logo with the path returned by the server
+  //         setInvestorFormData((prevFormData) => ({
+  //           ...prevFormData,
+  //           logo: response.data.logo, // Assuming the server returns the logo path in the response
+  //         }));
+
+  //         {
+  //           Swal.fire({
+  //             title: "Great 🥳!",
+  //             text: "Logo added successfully!",
+  //             icon: "success",
+  //           });
+  //         }
+  //       } catch (error) {
+  //         console.error("Error updating logo:", error);
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: "Oops...",
+  //           text: "Something went wrong while adding logo. Please try again!",
+  //         });
+  //       }
+  //     }
+  //   }
+  // };
+
   const handleLogoChange = async (e) => {
     const file = e.target.files[0];
-    console.log("this is e.target.files[0] : " + file);
     if (file) {
-      const confirmed = window.confirm(
-        "Are you sure you want to add this logo?"
-      );
+      const confirmed = window.confirm("Are you sure you want to add this logo?");
       if (confirmed) {
         const formData = new FormData();
         formData.append("logo", file);
         formData.append("user", userId);
-
+  
         try {
           let response;
           if (investorId) {
@@ -223,26 +279,28 @@ const InvestorUserProfile = () => {
           } else {
             response = await axios.post(
               "https://startup-connect-backend.vercel.app/investor/addInvestor",
-              formData
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
             );
-
+  
             // Save the ID of the newly created investor
             setInvestorId(response.data._id);
           }
-
-          // Update the logo with the path returned by the server
+  
           setInvestorFormData((prevFormData) => ({
             ...prevFormData,
-            logo: response.data.logo, // Assuming the server returns the logo path in the response
+            logo: response.data.logo, // Ensure this matches the response structure
           }));
-
-          {
-            Swal.fire({
-              title: "Great 🥳!",
-              text: "Logo added successfully!",
-              icon: "success",
-            });
-          }
+  
+          Swal.fire({
+            title: "Great 🥳!",
+            text: "Logo added successfully!",
+            icon: "success",
+          });
         } catch (error) {
           console.error("Error updating logo:", error);
           Swal.fire({
@@ -254,6 +312,8 @@ const InvestorUserProfile = () => {
       }
     }
   };
+  
+
 
   const closeForm = () => {
     setShowInvestorFormData(false);
