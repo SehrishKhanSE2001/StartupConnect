@@ -91,7 +91,7 @@ const HomePage = () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "The password you entered already exists. Also, the password must be at least 8 characters long and contain uppercase, lowercase, and special characters. Please try again!",
+        text: "The email or  password you entered already exists. Also, the password must be at least 8 characters long and contain uppercase, lowercase, and special characters. Please try again!",
       });
       console.error(
         "Failed to create a new user:",
