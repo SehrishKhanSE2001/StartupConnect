@@ -891,6 +891,10 @@ const StartupUserProfile = () => {
                     {"Status of your interest: " +
                       (investment.status || "Unknown Status")}
                   </p>
+                  <p>
+                    {"Number of times shown interest: " +
+                      (investment.count || "Unknown count")}
+                  </p>
                   <input
                     type="checkbox"
                     onChange={() => {
