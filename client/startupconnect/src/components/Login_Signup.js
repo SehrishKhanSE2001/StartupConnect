@@ -25,6 +25,7 @@ const HomePage = () => {
   // Separate state for password visibility toggles
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showAdminLoginPassword, setShowAdminLoginPassword] = useState(false);
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
 
   const toggleLoginPasswordVisibility = () => {
     setShowLoginPassword(!showLoginPassword);
@@ -33,6 +34,11 @@ const HomePage = () => {
   const toggleAdminLoginPasswordVisibility = () => {
     setShowAdminLoginPassword(!showAdminLoginPassword);
   };
+
+  const toggleSignupPasswordVisibility = () => {
+    setShowSignupPassword(!showSignupPassword);
+  };
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -258,12 +264,17 @@ const HomePage = () => {
               required
             />
             <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              placeholder="password"
-            />
+  type={showSignupPassword ? "text" : "password"} // Toggle between "text" and "password"
+  name="password"
+  value={formData.password}
+  onChange={handleInputChange}
+  placeholder="password"
+  required
+/>
+<button type="button" onClick={toggleSignupPasswordVisibility}>
+  {showSignupPassword ? "Hide" : "Show"} Password
+</button>
+
             <input
               type="text"
               name="location"

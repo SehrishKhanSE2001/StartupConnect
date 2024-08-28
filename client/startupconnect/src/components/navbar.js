@@ -30,11 +30,20 @@ export default function Navbar(props) {
     const fetchData = async () => {
       try {
         let response = await axios.get(
-          `https://startup-connect-backend.vercel.app/user/getSpecificUser/${props.userId}`
+          `http://localhost:3000/user/getSpecificUser/${props.userId}`
         );
         let data = response.data;
         console.log("USER DATA IS:", data);
         setuserData(data);
+        setFormData({
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          location: data.location,
+          phonenumber: data.phonenumber,
+          role: data.role
+        })
+        
         console.log("User fetched in the navbar component successfully!");
       } catch (error) {
         console.error(
@@ -76,35 +85,24 @@ export default function Navbar(props) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-
-    console.log("Submitting form with userId:", props.userId);
-
-    if (formData.name == "") {
-      formData.name = userData.name;
-    }
-    if (formData.email == "") {
-      formData.email = userData.email;
-    }
-    if (formData.password == "") {
-      formData.password = userData.password;
-    }
-    if (formData.location == "") {
-      formData.location = userData.location;
-    }
-    if (formData.phonenumber == "") {
-      formData.phonenumber = userData.phonenumber;
+    e.preventDefault();
+    
+    const updatedFields = {};
+    // Only add fields to updatedFields if they are different from userData
+    for (const key in formData) {
+      if (formData[key] !== userData[key]) {
+        updatedFields[key] = formData[key];
+      }
     }
 
     try {
       const response = await axios.put(
-        `https://startup-connect-backend.vercel.app/user/updateSignupInfo/${props.userId}`,
-        formData
+        `http://localhost:3000/user/updateSignupInfo/${props.userId}`,
+        updatedFields
       );
       if (response) {
         console.log("User sign up info updated successfully!");
       }
-      console.log("User created: ", response.data);
       Swal.fire({
         title: "Great 🥳!",
         text: "Signed up successfully!",
@@ -112,14 +110,15 @@ export default function Navbar(props) {
       });
       setShowForm(false);
     } catch (error) {
-      console.log("User cannot be updated: ", error);
+      console.log("Error updating user: ", error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "The password you entered already exists😔. Also, the password must be at least 8 characters long and contain uppercase, lowercase, and special characters. Please try again!",
+        text: "Something went wrong. Either the email exists or the password you entered already exists. Also, the password must be at least 8 characters long and contain uppercase, lowercase, and special characters. Please try again!!",
       });
     }
   };
+  
 
   return (
     <div className="navbar">
@@ -228,70 +227,67 @@ export default function Navbar(props) {
                 </button>
 
                 {showForm && (
-                  <div className="formContainer">
-                    <form onSubmit={handleSubmit} className="signup-form">
-                      <h2>Sign up</h2>
-                      <label>Name</label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={userData.name}
-                        onChange={handleInputChange}
-                        placeholder={userData.name}
-                        required
-                      />
-                      <label>email</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={userData.email}
-                        onChange={handleInputChange}
-                        placeholder={userData.email}
-                        required
-                      />
-                      <label>password</label>
-                      <input
-                        type={showLoginPassword ? "text" : "password"} // Toggle between text and password
-                        name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        placeholder="Password"
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={toggleLoginPasswordVisibility}
-                      >
-                        {showLoginPassword ? "Hide" : "Show"} Password
-                      </button>
-                      <label>location</label>
-                      <input
-                        type="text"
-                        name="location"
-                        value={userData.location}
-                        onChange={handleInputChange}
-                        placeholder={userData.location}
-                      />
-                      <label>PhoneNumber:</label>
-                      <input
-                        type="number"
-                        name="phonenumber"
-                        value={userData.phonenumber}
-                        onChange={handleInputChange}
-                        placeholder={userData.phonenumber}
-                      />
-                      <button type="submit">Re-Submit</button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setShowForm(false);
-                        }}
-                      >
-                        Close
-                      </button>
-                    </form>
-                  </div>
-                )}
+        <div className="formContainer">
+          <form onSubmit={handleSubmit} className="signup-form">
+            <h2>Update Info</h2>
+            <label>Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name || ""}
+              onChange={handleInputChange}
+              placeholder="Name"
+            />
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email || ""}
+              onChange={handleInputChange}
+              placeholder="Email"
+            />
+           <label>Password (If you want to change your password, enter a new one in plain text. Otherwise, leave this field as is; the old password is stored securely in hashed form.)</label>
+           <input
+  type={showLoginPassword ? "text" : "password"}
+  name="password"
+  value={formData.password || ""}  // Keep it empty by default
+  onChange={handleInputChange}
+  placeholder="Enter new password (Leave blank to keep existing)"
+/>
+
+<button
+  type="button"
+  onClick={toggleLoginPasswordVisibility}
+>
+  {showLoginPassword ? "Hide" : "Show"} Password
+</button>
+
+            <label>Location</label>
+            <input
+              type="text"
+              name="location"
+              value={formData.location || ""}
+              onChange={handleInputChange}
+              placeholder="Location"
+            />
+            <label>Phone Number</label>
+            <input
+              type="number"
+              name="phonenumber"
+              value={formData.phonenumber || ""}
+              onChange={handleInputChange}
+              placeholder="Phone Number"
+            />
+            <button type="submit">Update</button>
+            <button
+              type="button"
+              onClick={() => setShowForm(false)}
+            >
+              Close
+            </button>
+          </form>
+        </div>
+      )}
               </div>
             )}
           </div>

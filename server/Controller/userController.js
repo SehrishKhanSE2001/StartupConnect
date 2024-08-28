@@ -167,43 +167,95 @@ let signup = async (req, res) => {
   }
 };
 
+// const updateSignupInfo = async (req, res) => {
+//   try {
+//     const { id } = req.params; // Extract `id` from params
+//     const updates = req.body;
+//     const { password } = req.body; // Extract password from body
+//     const {email} = req.body;
+
+//     // const existingUser = await userModel.findOne({ email });
+//     // if (existingUser) {
+//     //   return res.status(400).json({ message: "Email already exists" });
+//     // }
+
+//     if(email)
+//     {
+//       const existingUser = await userModel.findOne({ email });
+//     if (existingUser) {
+//        return res.status(400).json({ message: "Email already exists" });
+//      }
+//     }
+
+//     // Validate password length and complexity
+//     if (password && !validatePassword(password)) {
+//       console.log("Password validation failed");
+//       return res.status(400).json({
+//         message:
+//           "Password must be at least 8 characters long and contain uppercase, lowercase, and special characters.",
+//       });
+//     }
+
+//     if (!mongoose.Types.ObjectId.isValid(id)) {
+//       return res.status(400).json({ message: "Invalid User Id" });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     updates.password = hashedPassword;
+
+//     const updatedUser = await userModel.findByIdAndUpdate(id, updates, {
+//       new: true,
+//     });
+
+//     if (!updatedUser) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     res
+//       .status(200)
+//       .json({ message: "User updated successfully!", user: updatedUser });
+//   } catch (error) {
+//     console.error("Error updating user:", error); // Improved logging
+//     res
+//       .status(500)
+//       .json({ message: "User not updated. Error: " + error.message });
+//   }
+// };
+
 const updateSignupInfo = async (req, res) => {
   try {
-    const { id } = req.params; // Extract `id` from params
-    const updates = req.body;
-    const { password } = req.body; // Extract password from body
-    const {email} = req.body;
+    const { id } = req.params;
+    const updates = req.body; 
+    const { email, password } = updates;
 
-    // const existingUser = await userModel.findOne({ email });
-    // if (existingUser) {
-    //   return res.status(400).json({ message: "Email already exists" });
-    // }
-
-    if(email)
-    {
+    // Check if email is being updated
+    if (email) {
       const existingUser = await userModel.findOne({ email });
-    if (existingUser) {
-       return res.status(400).json({ message: "Email already exists" });
-     }
+      if (existingUser) {
+        return res.status(400).json({ message: "Email already exists" });
+      }
     }
 
-    // Validate password length and complexity
+    // Validate password only if it's being updated
     if (password && !validatePassword(password)) {
-      console.log("Password validation failed");
       return res.status(400).json({
         message:
           "Password must be at least 8 characters long and contain uppercase, lowercase, and special characters.",
       });
     }
 
+    // Validate the User ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid User Id" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash the password if it's provided and changed
+    if (password) {
+      updates.password = await bcrypt.hash(password, 10);
+    }
 
-    updates.password = hashedPassword;
-
+    // Update only the changed fields in the user document
     const updatedUser = await userModel.findByIdAndUpdate(id, updates, {
       new: true,
     });
@@ -212,16 +264,14 @@ const updateSignupInfo = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res
-      .status(200)
-      .json({ message: "User updated successfully!", user: updatedUser });
+    res.status(200).json({ message: "User updated successfully!", user: updatedUser });
   } catch (error) {
-    console.error("Error updating user:", error); // Improved logging
-    res
-      .status(500)
-      .json({ message: "User not updated. Error: " + error.message });
+    console.error("Error updating user:", error.stack || error);
+    res.status(500).json({ message: "User not updated. Error: " + error.message });
   }
 };
+
+
 
 const getSpecificUser = async (req, res) => {
   let { id } = req.params;
