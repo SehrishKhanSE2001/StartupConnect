@@ -376,7 +376,7 @@ export default function StartupPage() {
         {startupsInfo.logo && (
           <img
             className="startupPage-logo"
-            src={`https://startup-connect-backend.vercel.app/${startupsInfo.logo}`}
+            src={startupsInfo.logo}
             alt="Logo"
           />
         )}
