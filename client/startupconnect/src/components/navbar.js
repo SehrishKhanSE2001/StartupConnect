@@ -67,6 +67,9 @@ export default function Navbar(props) {
   const NavigateToLoginSignupPage = () => {
     navigate("/Login_Signup");
   };
+  const NavigateToAdminPortal = ()=>{
+    navigate('/adminView');
+  }
   const handleSignUpLogin = () => {
     navigate("/Login_Signup"); // Navigate to profile page
   };
@@ -297,6 +300,7 @@ export default function Navbar(props) {
         <>
           <div className="admin-greeting">Hi Aminah 👋🏻!</div>
           <div className="centered-title">Admin Portal</div>
+          <button type='button' onClick={NavigateToAdminPortal}>Admin Portal</button>
           <button
             className="logout-button"
             type="button"
