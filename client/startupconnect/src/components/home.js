@@ -454,7 +454,7 @@ const CurveSection = () => {
                     <div className="flexBox" key={index}>
                       {startup.logo && (
                         <img
-                          src={`https://startup-connect-backend.vercel.app/${startup.logo}`}
+                          src={startup.logo}
                           alt="Logo"
                           style={{ height: "210px" }}
                           className="logo-image"
