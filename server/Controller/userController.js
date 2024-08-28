@@ -174,9 +174,17 @@ const updateSignupInfo = async (req, res) => {
     const { password } = req.body; // Extract password from body
     const {email} = req.body;
 
-    const existingUser = await userModel.findOne({ email });
+    // const existingUser = await userModel.findOne({ email });
+    // if (existingUser) {
+    //   return res.status(400).json({ message: "Email already exists" });
+    // }
+
+    if(email)
+    {
+      const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Email already exists" });
+       return res.status(400).json({ message: "Email already exists" });
+     }
     }
 
     // Validate password length and complexity
