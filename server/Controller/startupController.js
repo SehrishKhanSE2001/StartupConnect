@@ -4,22 +4,100 @@ const path = require("path");
 const multer = require("multer");
 
 //Storage and file name setting
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./uploads"); //.uploads
-  },
-  filename: (req, file, cb) => {
-    console.log(file);
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "./uploads"); //.uploads
+//   },
+//   filename: (req, file, cb) => {
+//     console.log(file);
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
 
+// const upload = multer({ storage: storage });
+
+
+
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+
+
+
 
 const uploadFields = upload.fields([
   { name: "logo", maxCount: 1 },
   { name: "teamImage", maxCount: 1 },
 ]);
+
+
+const { Readable } = require("stream");
+const cloudinary = require("cloudinary").v2;
+
+const updateStartupImageId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const uploadImageToCloudinary = async (file) => {
+      if (!file || !file.buffer) {
+        throw new Error("File buffer is missing");
+      }
+
+      const fileStream = Readable.from(file.buffer);
+
+      const uploadResponse = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { resource_type: "auto" },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          }
+        );
+
+        fileStream.pipe(uploadStream);
+      });
+
+      if (uploadResponse.error) {
+        throw new Error(uploadResponse.error.message);
+      }
+
+      return uploadResponse.secure_url;
+    };
+
+    const updateFields = {};
+    if (req.files["logo"]) {
+      const logoFile = req.files["logo"][0];
+      updateFields.logo = await uploadImageToCloudinary(logoFile);
+    }
+    if (req.files["teamImage"]) {
+      const teamImageFile = req.files["teamImage"][0];
+      updateFields.teamImage = await uploadImageToCloudinary(teamImageFile);
+    }
+
+    const updatedStartup = await Startup.findByIdAndUpdate(id, updateFields, {
+      new: true,
+    });
+
+    if (!updatedStartup) {
+      return res.status(404).json({ message: "Startup not found" });
+    }
+
+    res.status(200).json({
+      message: "Startup updated successfully",
+      startup: updatedStartup,
+    });
+  } catch (error) {
+    console.error("Error updating startup: ", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
+
+
+
+
 
 const getAllStartups = async (req, res) => {
   try {
@@ -137,37 +215,37 @@ const updateStartup = async (req, res) => {
   }
 };
 
-const updateStartupImageId = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const logo = req.files["logo"] ? req.files["logo"][0].path : null;
-    const teamImage = req.files["teamImage"]
-      ? req.files["teamImage"][0].path
-      : null;
+// const updateStartupImageId = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const logo = req.files["logo"] ? req.files["logo"][0].path : null;
+//     const teamImage = req.files["teamImage"]
+//       ? req.files["teamImage"][0].path
+//       : null;
 
-    const updateFields = {};
-    if (logo) updateFields.logo = logo;
-    if (teamImage) updateFields.teamImage = teamImage;
+//     const updateFields = {};
+//     if (logo) updateFields.logo = logo;
+//     if (teamImage) updateFields.teamImage = teamImage;
 
-    const updatedStartup = await Startup.findByIdAndUpdate(id, updateFields, {
-      new: true,
-    });
+//     const updatedStartup = await Startup.findByIdAndUpdate(id, updateFields, {
+//       new: true,
+//     });
 
-    if (!updatedStartup) {
-      return res.status(404).json({ message: "Startup not found" });
-    }
+//     if (!updatedStartup) {
+//       return res.status(404).json({ message: "Startup not found" });
+//     }
 
-    res
-      .status(200)
-      .json({
-        message: "Startup updated successfully",
-        startup: updatedStartup,
-      });
-  } catch (error) {
-    console.error("Error updating startup: ", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
+//     res
+//       .status(200)
+//       .json({
+//         message: "Startup updated successfully",
+//         startup: updatedStartup,
+//       });
+//   } catch (error) {
+//     console.error("Error updating startup: ", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
 
 const deleteStartup = async (req, res) => {
   try {

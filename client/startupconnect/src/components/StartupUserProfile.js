@@ -476,7 +476,7 @@ const StartupUserProfile = () => {
               {
                 <img
                   src={
-                    topHalfImage ? `https://startup-connect-backend.vercel.app/${topHalfImage}` : ""
+                    topHalfImage ? topHalfImage: ""  // `https://startup-connect-backend.vercel.app/${topHalfImage}` : ""
                   }
                   style={{
                     width: "100%", // Make the image fill the width of its container
@@ -503,7 +503,7 @@ const StartupUserProfile = () => {
             />
             <div className="camera-text">Team Image</div>
             <img
-              src={teamImage ? `https://startup-connect-backend.vercel.app/${teamImage}` : ""}
+              src={teamImage ? teamImage: ""}   //`https://startup-connect-backend.vercel.app/${teamImage}`
               alt="Team Image"
               style={{
                 width: "100%", // Make the image fill the width of its container
